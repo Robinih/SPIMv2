@@ -32,6 +32,21 @@ class LoginActivity : AppCompatActivity() {
 
         setupClickListeners()
         setupSignUpText()
+        setupAutoScroll()
+    }
+
+    private fun setupAutoScroll() {
+        val focusListener = View.OnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) {
+                binding.scrollView.postDelayed({
+                    // Scroll so the focused view is near the top of the scrollable area
+                    binding.scrollView.smoothScrollTo(0, v.top - 100)
+                }, 300)
+            }
+        }
+
+        binding.etUsername.onFocusChangeListener = focusListener
+        binding.etPassword.onFocusChangeListener = focusListener
     }
 
     private fun setupClickListeners() {

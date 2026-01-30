@@ -64,6 +64,7 @@
         <!-- Recommendation Activity -->
         <activity
             android:name=".RecommendationActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
 
         <!-- Legacy Main Activity (for backward compatibility) -->

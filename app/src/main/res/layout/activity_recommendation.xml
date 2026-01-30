@@ -45,11 +45,12 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
+        android:isScrollContainer="true"
         android:clipToPadding="false"
-        android:clipChildren="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/header_layout">
 
@@ -57,9 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="24dp"
-            android:clipToPadding="false"
-            android:clipChildren="false">
+            android:padding="24dp">
 
             <!-- Image Section -->
             <androidx.cardview.widget.CardView
@@ -150,7 +149,8 @@
                     android:id="@+id/et_insect_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textCapWords" />
+                    android:inputType="textCapWords"
+                    android:imeOptions="actionNext" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -170,7 +170,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="top"
                     android:inputType="textMultiLine"
-                    android:minLines="5" />
+                    android:minLines="5"
+                    android:imeOptions="actionDone" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
@@ -183,6 +184,11 @@
                 android:textSize="18sp"
                 app:cornerRadius="16dp"
                 android:backgroundTint="@color/primary_green" />
+
+            <!-- Added extra space at the bottom to allow scrolling when keyboard is open -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="350dp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </ScrollView>

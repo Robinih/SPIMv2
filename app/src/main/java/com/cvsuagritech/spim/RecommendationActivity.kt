@@ -56,6 +56,18 @@ class RecommendationActivity : AppCompatActivity() {
 
         sessionManager = SessionManager(this)
         setupClickListeners()
+        setupAutoScroll()
+    }
+
+    private fun setupAutoScroll() {
+        // Auto-scroll only for the description field as it is at the bottom
+        binding.etDescription.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                binding.scrollView.postDelayed({
+                    binding.scrollView.smoothScrollTo(0, binding.tilDescription.top - 50)
+                }, 300)
+            }
+        }
     }
 
     private fun setupClickListeners() {
@@ -87,9 +99,9 @@ class RecommendationActivity : AppCompatActivity() {
             dialog.dismiss()
         }
 
+        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         btnGallery.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            galleryLauncher.launch(intent)
+            galleryLauncher.launch(galleryIntent)
             dialog.dismiss()
         }
 

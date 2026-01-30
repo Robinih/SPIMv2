@@ -39,6 +39,26 @@ class SignUpActivity : AppCompatActivity() {
         setupBarangayDropdown()
         setupClickListeners()
         setupLoginText()
+        setupAutoScroll()
+    }
+
+    private fun setupAutoScroll() {
+        // We only keep auto-scroll for fields likely to be hidden by the keyboard (bottom fields)
+        binding.etUsername.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) scrollTask(binding.tilUsername.top)
+        }
+        binding.etPassword.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) scrollTask(binding.tilPassword.top)
+        }
+        binding.etConfirmPassword.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) scrollTask(binding.tilConfirmPassword.top)
+        }
+    }
+
+    private fun scrollTask(y: Int) {
+        binding.scrollView.postDelayed({
+            binding.scrollView.smoothScrollTo(0, y - 50)
+        }, 300)
     }
 
     private fun setupBarangayDropdown() {
