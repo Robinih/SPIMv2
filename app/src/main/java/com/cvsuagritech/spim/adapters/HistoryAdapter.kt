@@ -116,8 +116,6 @@ class HistoryAdapter(
                 HistoryItem.CountItem.Severity.HIGH -> R.color.error_red to "HIGH"
             }
             
-            val color = ContextCompat.getColor(binding.root.context, colorRes)
-            binding.severityIndicator.setBackgroundColor(color)
             binding.tvSeverityLabel.text = label
             binding.tvSeverityLabel.backgroundTintList = ContextCompat.getColorStateList(binding.root.context, colorRes)
 

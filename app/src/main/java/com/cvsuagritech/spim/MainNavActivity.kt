@@ -52,6 +52,7 @@ class MainNavActivity : AppCompatActivity() {
             TutorialStep(R.id.nav_home, getString(R.string.tutorial_step4_title), getString(R.string.tutorial_step4_desc), R.id.tv_library_label),
             
             TutorialStep(R.id.nav_history, getString(R.string.tutorial_step5_title), getString(R.string.tutorial_step5_desc), R.id.nav_history),
+            TutorialStep(R.id.nav_history, getString(R.string.tutorial_step5_sync_title), getString(R.string.tutorial_step5_sync_desc), R.id.btn_sync),
             
             TutorialStep(R.id.nav_stats, getString(R.string.tutorial_step6_title), getString(R.string.tutorial_step6_desc), R.id.nav_stats),
             

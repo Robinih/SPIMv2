@@ -230,6 +230,9 @@
     <string name="tutorial_step5_title">History</string>
     <string name="tutorial_step5_desc">Review all your previous detections and reports in this tab.</string>
 
+    <string name="tutorial_step5_sync_title">Sync Records</string>
+    <string name="tutorial_step5_sync_desc">Tap the sync button to upload your local records to the server for cloud backup and regional monitoring.</string>
+
     <string name="tutorial_step6_title">Statistics</string>
     <string name="tutorial_step6_desc">Track your farm\'s health trends and see which insects are most common over time.</string>
 

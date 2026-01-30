@@ -6,8 +6,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
-    // For Emulator use 10.0.2.2. For physical device use your laptop IP.
-    private const val BASE_URL = "http://192.168.203.68:5000/"
+    // New hosting connection on PythonAnywhere
+    private const val BASE_URL = "https://Eyow189.pythonanywhere.com/"
 
     private val logging = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY

@@ -2,28 +2,18 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/card_history_count"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
     app:cardCornerRadius="16dp"
     app:cardElevation="4dp"
-    app:cardBackgroundColor="@color/background_white"
-    app:cardUseCompatPadding="true">
+    app:cardBackgroundColor="@color/background_white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="16dp">
-
-        <!-- Severity Bar -->
-        <View
-            android:id="@+id/severity_indicator"
-            android:layout_width="4dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="12dp"
-            android:background="@color/success_green" />
 
         <!-- Count Image -->
         <FrameLayout
@@ -36,7 +26,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:scaleType="centerCrop"
-                android:background="@color/surface_light"
+                android:background="@drawable/image_container_background"
                 tools:src="@drawable/place_holder" />
 
             <ImageView
@@ -60,24 +50,43 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
+            <!-- Title -->
             <TextView
+                android:id="@+id/tv_count_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Pest Count Report"
-                android:textSize="14sp"
-                android:textColor="@color/text_secondary"
-                android:textAllCaps="true"
-                android:letterSpacing="0.05" />
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:layout_marginBottom="4dp" />
 
-            <TextView
-                android:id="@+id/tv_total_count"
+            <!-- Count Details -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="12"
-                android:textSize="28sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_primary" />
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total Detected: "
+                    android:textSize="14sp"
+                    android:textColor="@color/text_secondary" />
+
+                <TextView
+                    android:id="@+id/tv_total_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="12"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary_green" />
+
+            </LinearLayout>
+
+            <!-- Date and Time -->
             <TextView
                 android:id="@+id/tv_count_date"
                 android:layout_width="wrap_content"
@@ -88,19 +97,35 @@
 
         </LinearLayout>
 
-        <!-- Count Badge -->
-        <TextView
-            android:id="@+id/tv_severity_label"
+        <!-- Severity Badge & Action -->
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="12dp"
-            android:paddingVertical="4dp"
-            android:background="@drawable/confidence_badge_background"
-            android:text="MED"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:layout_gravity="top" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="end">
+
+            <TextView
+                android:id="@+id/tv_severity_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="2dp"
+                android:background="@drawable/confidence_badge_background"
+                android:text="HIGH"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginBottom="8dp" />
+
+            <ImageButton
+                android:id="@+id/btn_view_details_count"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_arrow_forward"
+                android:background="@drawable/circle_button_background"
+                android:contentDescription="@string/btn_view_details" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
