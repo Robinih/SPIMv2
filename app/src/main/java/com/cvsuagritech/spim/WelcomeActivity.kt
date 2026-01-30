@@ -4,15 +4,19 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.cvsuagritech.spim.databinding.ActivityWelcomeBinding
 import com.cvsuagritech.spim.utils.LanguageManager
 import com.cvsuagritech.spim.utils.ThemeManager
 import com.cvsuagritech.spim.utils.SessionManager
+import com.cvsuagritech.spim.utils.UpdateManager
+import kotlinx.coroutines.launch
 
 class WelcomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityWelcomeBinding
     private lateinit var sessionManager: SessionManager
+    private lateinit var updateManager: UpdateManager
 
     override fun attachBaseContext(newBase: Context) {
         // Critical: Apply language wrapping to the activity context
@@ -25,6 +29,7 @@ class WelcomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         
         sessionManager = SessionManager(this)
+        updateManager = UpdateManager(this)
 
         if (sessionManager.isLoggedIn()) {
             val intent = Intent(this, MainNavActivity::class.java)
@@ -39,6 +44,11 @@ class WelcomeActivity : AppCompatActivity() {
         val currentLang = LanguageManager.getCurrentLanguage(this)
         updateLanguageButtonText(currentLang)
         setupClickListeners()
+
+        // Experimental: Check for updates on the Welcome screen
+        lifecycleScope.launch {
+            updateManager.checkForUpdates()
+        }
     }
 
     private fun setupClickListeners() {
