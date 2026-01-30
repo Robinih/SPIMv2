@@ -245,8 +245,20 @@
                             android:id="@+id/tv_app_version"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1.0.0"
+                            android:layout_marginEnd="8dp"
+                            android:text="1.0"
                             android:textColor="@color/text_primary" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_check_update"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Update"
+                            android:textColor="@color/primary_green"
+                            android:textStyle="bold"
+                            android:padding="0dp"
+                            android:minWidth="0dp" />
                     </LinearLayout>
 
                 </LinearLayout>

@@ -23,6 +23,7 @@ import com.cvsuagritech.spim.models.HistoryItem
 import com.cvsuagritech.spim.utils.LanguageManager
 import com.cvsuagritech.spim.utils.SessionManager
 import com.cvsuagritech.spim.utils.ThemeManager
+import com.cvsuagritech.spim.utils.UpdateManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
@@ -40,6 +41,7 @@ class SettingsFragment : Fragment() {
     
     private lateinit var databaseHelper: PestDatabaseHelper
     private lateinit var sessionManager: SessionManager
+    private lateinit var updateManager: UpdateManager
     private var currentLanguage = "en"
     private var currentTheme = ThemeManager.THEME_SYSTEM
 
@@ -59,6 +61,7 @@ class SettingsFragment : Fragment() {
         
         databaseHelper = PestDatabaseHelper(requireContext())
         sessionManager = SessionManager(requireContext())
+        updateManager = UpdateManager(requireContext())
         setupUI()
         setupClickListeners()
         loadAppInfo()
@@ -75,7 +78,7 @@ class SettingsFragment : Fragment() {
             val packageInfo = requireContext().packageManager.getPackageInfo(requireContext().packageName, 0)
             binding.tvAppVersion.text = packageInfo.versionName
         } catch (e: Exception) {
-            binding.tvAppVersion.text = "1.0.0"
+            binding.tvAppVersion.text = "1.0"
         }
 
         // Set database status
@@ -98,6 +101,13 @@ class SettingsFragment : Fragment() {
 
         binding.btnTheme.setOnClickListener {
             showThemeDialog()
+        }
+
+        binding.btnCheckUpdate.setOnClickListener {
+            Toast.makeText(requireContext(), "Checking for updates...", Toast.LENGTH_SHORT).show()
+            lifecycleScope.launch {
+                updateManager.checkForUpdates(manualCheck = true)
+            }
         }
 
         binding.btnClearAllHistory.setOnClickListener {
