@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Main UI Text -->
+    <string name="app_title">Smart Pest Infestation Monitor</string>
+    <string name="app_subtitle">Tukuyin ang mga peste mula sa larawan upang maiwasan ang maagang pinsala sa pananim</string>
+    <string name="app_description">Makabagong AI na teknolohiya para sa pagtukoy ng peste at proteksyon sa agrikultura</string>
+
+    <!-- Button Labels -->
+    <string name="btn_capture_image">📷 Kunan ng Larawan</string>
+    <string name="btn_load_image">🖼️ Mag-load ng Larawan</string>
+    <string name="btn_retry">🔄 Subukan Muli</string>
+    <string name="btn_analyze">🔍 Suriin ang Larawan</string>
+
+    <!-- Status Messages -->
+    <string name="status_ready">Handa nang magsuri</string>
+    <string name="status_analyzing">Sinusuri ang larawan…</string>
+    <string name="status_processing">Pinoproseso…</string>
+    <string name="status_complete">Tapos na ang pagsusuri</string>
+    <string name="status_error">Nabigo ang pagsusuri</string>
+
+    <!-- Result Labels -->
+    <string name="result_detected_pest">Natukoy na Peste:</string>
+    <string name="result_confidence">Katiyakan:</string>
+    <string name="result_unknown">Hindi kilalang peste ang natukoy</string>
+    <string name="result_no_pest">Walang natukoy na peste</string>
+    <string name="result_tap_to_search">Pindutin ang resulta upang maghanap online</string>
+    <string name="result_help_text">Tumutulong upang mabawasan ang peste sa pananim</string>
+
+    <!-- Placeholder Text -->
+    <string name="placeholder_image">Walang napiling larawan</string>
+    <string name="placeholder_result">Dito lalabas ang resulta</string>
+    <string name="placeholder_confidence">--%</string>
+
+    <!-- Permission Messages -->
+    <string name="permission_camera_title">Kinakailangan ang Pahintulot sa Kamera</string>
+    <string name="permission_camera_message">Kailangan ng SPIM ng access sa kamera upang makuhanan ng larawan ang mga peste para sa pagsusuri.</string>
+    <string name="permission_storage_title">Kinakailangan ang Pahintulot sa Storage</string>
+    <string name="permission_storage_message">Kailangan ng SPIM ng access sa storage upang mag-load at mag-save ng mga larawan ng peste.</string>
+    <string name="permission_denied">Tinanggihan ang pahintulot. Pakisiguro na naka-enable ito sa settings.</string>
+    <string name="permission_granted">Nabigyan ng pahintulot</string>
+
+    <!-- Error Messages -->
+    <string name="error_camera_unavailable">Hindi magamit ang kamera</string>
+    <string name="error_image_load_failed">Nabigong mag-load ng larawan</string>
+    <string name="error_analysis_failed">Nabigo ang pagsusuri. Pakisubukang muli.</string>
+    <string name="error_model_load_failed">Nabigong i-load ang modelo</string>
+    <string name="error_no_image">Walang larawang susuriin</string>
+    <string name="error_save_failed">Nabigong i-save ang larawan</string>
+    <string name="error_save_success">Matagumpay na na-save ang larawan</string>
+
+    <!-- Dialog Messages -->
+    <string name="dialog_save_title">I-save ang Larawan?</string>
+    <string name="dialog_save_message">Gusto mo bang i-save ang larawang ito sa iyong gallery?</string>
+    <string name="dialog_yes">Oo</string>
+    <string name="dialog_no">Hindi</string>
+    <string name="dialog_cancel">Kanselahin</string>
+    <string name="dialog_ok">OK</string>
+
+    <!-- Accessibility -->
+    <string name="content_description_camera">Button ng kamera para kumuha ng larawan ng peste</string>
+    <string name="content_description_gallery">Button ng gallery para pumili ng larawan ng peste</string>
+    <string name="content_description_image">Larawan ng peste para sa pagsusuri</string>
+    <string name="content_description_result">Resulta ng pagtukoy ng peste</string>
+
+    <!-- Tips and Help -->
+    <string name="tip_camera">💡 Tip: Siguraduhing may maayos na ilaw para sa mas tumpak na pagtukoy</string>
+    <string name="tip_focus">💡 Tip: Ituon ang larawan sa peste para sa mas eksaktong pagkilala</string>
+    <string name="tip_angle">💡 Tip: Kunan mula sa iba’t ibang anggulo kung kinakailangan</string>
+
+    <!-- Confidence Levels -->
+    <string name="confidence_high">Mataas ang katiyakan</string>
+    <string name="confidence_medium">Katamtamang katiyakan</string>
+    <string name="confidence_low">Mababang katiyakan</string>
+    <string name="confidence_very_low">Napakababang katiyakan</string>
+
+    <!-- Welcome Screen -->
+    <string name="btn_get_started">Magsimula</string>
+    <string name="feature_camera_title">Pagkuha ng Larawan</string>
+    <string name="feature_camera_desc">Kumuhang larawan ng peste para sa agarang pagkilala</string>
+    <string name="feature_ai_title">AI na Pagsusuri</string>
+    <string name="feature_ai_desc">Makabagong machine learning para sa tumpak na pagtukoy ng peste</string>
+    <string name="feature_history_title">Kasaysayan ng Pagsusuri</string>
+    <string name="feature_history_desc">Subaybayan ang lahat ng iyong mga resulta ng pagtukoy ng peste</string>
+    <string name="feature_offline_title">Offline na Suporta</string>
+    <string name="feature_offline_desc">Gumagana kahit walang internet gamit ang lokal na database</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_history">Kasaysayan</string>
+    <string name="nav_settings">Mga Setting</string>
+
+    <!-- History Screen -->
+    <string name="history_subtitle">Tingnan ang iyong kasaysayan ng pagtukoy ng peste</string>
+    <string name="history_empty_title">Wala Pang Rekord</string>
+    <string name="history_empty_desc">Simulan ang pagtukoy ng mga peste upang lumabas dito ang iyong kasaysayan</string>
+    <string name="btn_clear_history">Burahin ang Kasaysayan</string>
+    <string name="btn_view_details">Tingnan ang Detalye</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_subtitle">I-customize ang iyong karanasan sa app</string>
+    <string name="settings_language">Wika</string>
+    <string name="settings_theme">Tema</string>
+    <string name="theme_light">Maliwanag</string>
+    <string name="theme_dark">Madilim</string>
+    <string name="theme_system">Sistema</string>
+    <string name="settings_version">Bersyon ng App</string>
+    <string name="settings_database">Kalagayan ng Database</string>
+    <string name="settings_database_ready">Handa</string>
+    <string name="settings_records">Kabuuang Rekord</string>
+    <string name="btn_clear_all_history">Burahin Lahat ng Kasaysayan</string>
+    <string name="btn_export_data">I-export ang Data</string>
+
+    <!-- Language Options -->
+    <string name="language_english">Ingles</string>
+    <string name="language_tagalog">Tagalog</string>
+
+</resources>

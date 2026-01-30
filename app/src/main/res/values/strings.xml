@@ -1,0 +1,298 @@
+<resources>
+    <string name="app_name">SPIM</string>
+    
+    <!-- Main UI Text -->
+    <string name="app_title">Smart Pest Infestation Monitor</string>
+    <string name="app_subtitle">Identify pests from images to prevent early crop damage</string>
+    <string name="app_description">Advanced AI-powered pest detection for agricultural protection</string>
+    
+    <!-- Button Labels -->
+    <string name="btn_capture_image">📷 Capture Image</string>
+    <string name="btn_load_image">🖼️ Load Image</string>
+    <string name="btn_retry">Try Again</string>
+    <string name="btn_analyze">Analyze Image</string>
+    
+    <!-- Status Messages -->
+    <string name="status_ready">Ready to analyze</string>
+    <string name="status_analyzing">Analyzing image…</string>
+    <string name="status_processing">Processing…</string>
+    <string name="status_complete">Analysis complete</string>
+    <string name="status_error">Analysis failed</string>
+    
+    <!-- Result Labels -->
+    <string name="result_detected_pest">Detected Pest:</string>
+    <string name="result_confidence">Confidence:</string>
+    <string name="result_unknown">Unknown pest detected</string>
+    <string name="result_no_pest">No pest detected</string>
+    <string name="result_tap_to_search">Tap result to search online</string>
+    <string name="result_help_text">Helps reduce crop infestation</string>
+    
+    <!-- Placeholder Text -->
+    <string name="placeholder_image">No image selected</string>
+    <string name="placeholder_result">Result will appear here</string>
+    <string name="placeholder_confidence">--%</string>
+    
+    <!-- Permission Messages -->
+    <string name="permission_camera_title">Camera Permission Required</string>
+    <string name="permission_camera_message">SPIM needs camera access to capture pest images for analysis.</string>
+    <string name="permission_storage_title">Storage Permission Required</string>
+    <string name="permission_storage_message">SPIM needs storage access to load and save pest images.</string>
+    <string name="permission_denied">Permission denied. Please enable in settings.</string>
+    <string name="permission_granted">Permission granted</string>
+    
+    <!-- Error Messages -->
+    <string name="error_camera_unavailable">Camera not available</string>
+    <string name="error_image_load_failed">Failed to load image</string>
+    <string name="error_analysis_failed">Analysis failed. Please try again.</string>
+    <string name="error_model_load_failed">Model loading failed</string>
+    <string name="error_no_image">No image to analyze</string>
+    <string name="error_save_failed">Failed to save image</string>
+    <string name="error_save_success">Image saved successfully</string>
+    
+    <!-- Dialog Messages -->
+    <string name="dialog_save_title">Save Image?</string>
+    <string name="dialog_save_message">Do you want to save this image to your gallery?</string>
+    <string name="dialog_yes">Yes</string>
+    <string name="dialog_no">No</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_login_required_title">Login Required</string>
+    <string name="dialog_login_required_message">You need to be logged in to recommend insects. Please log in or create an account to use this feature.</string>
+    <string name="dialog_logout_title">Logout</string>
+    <string name="dialog_logout_message">Are you sure you want to logout?</string>
+
+    <!-- Accessibility -->
+    <string name="content_description_camera">Camera button to capture pest image</string>
+    <string name="content_description_gallery">Gallery button to select pest image</string>
+    <string name="content_description_image">Pest image for analysis</string>
+    <string name="content_description_result">Pest identification result</string>
+    
+    <!-- Tips and Help -->
+    <string name="tip_camera">Tip: Ensure good lighting for better detection</string>
+    <string name="tip_focus">Tip: Focus on the pest for accurate identification</string>
+    <string name="tip_angle">Tip: Capture from different angles if needed</string>
+    
+    <!-- Confidence Levels -->
+    <string name="confidence_high">High confidence</string>
+    <string name="confidence_medium">Medium confidence</string>
+    <string name="confidence_low">Low confidence</string>
+    <string name="confidence_very_low">Very low confidence</string>
+    
+    <!-- Welcome Screen -->
+    <string name="welcome_title">Protect Your Crops</string>
+    <string name="welcome_desc">Welcome to SPIM. Our advanced AI helps you monitor, detect, and count pests in real-time to ensure your harvest stays healthy.</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_continue_guest">Continue as Guest</string>
+    <string name="btn_get_started">Get Started</string>
+    <string name="feature_camera_title">Camera Capture</string>
+    <string name="feature_camera_desc">Take photos of pests for instant identification</string>
+    <string name="feature_ai_title">AI Analysis</string>
+    <string name="feature_ai_desc">Advanced machine learning for accurate pest detection</string>
+    <string name="feature_history_title">History Tracking</string>
+    <string name="feature_history_desc">Keep track of all your pest identification records</string>
+    <string name="feature_offline_title">Offline Support</string>
+    <string name="feature_offline_desc">Works completely offline with local database</string>
+
+    <!-- Login Screen -->
+    <string name="login_welcome_back">Welcome Back!</string>
+    <string name="login_signin_subtitle">Sign in to continue monitoring</string>
+    <string name="login_username_hint">Username</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_no_account">Don\'t have an account? Sign Up</string>
+
+    <!-- Sign Up Screen -->
+    <string name="signup_create_account">Create Account</string>
+    <string name="signup_subtitle">Join our community of farmers</string>
+    <string name="signup_full_name_hint">Full Name of Farmer</string>
+    <string name="signup_farm_address_hint">Address of the Farm</string>
+    <string name="signup_confirm_password_hint">Re-enter Password</string>
+    <string name="signup_btn_register">Sign Up</string>
+    <string name="signup_already_account">Already have an account? Login</string>
+    <string name="signup_success">Account created successfully!</string>
+    <string name="error_name_required">Full Name is required</string>
+    <string name="error_municipality_required">Municipality is required</string>
+    <string name="error_address_required">Street/Barangay is required</string>
+    <string name="error_username_required">Username is required</string>
+    <string name="error_password_required">Password is required</string>
+    <string name="error_password_short">Password must be at least 6 characters</string>
+    <string name="error_confirm_password_required">Please confirm your password</string>
+    <string name="error_passwords_mismatch">Passwords do not match</string>
+
+    <!-- Home Screen -->
+    <string name="home_welcome_guest">Welcome, Guest!</string>
+    <string name="home_welcome_user">Welcome, %1$s!</string>
+    <string name="home_ready_monitor">Ready to monitor your crops?</string>
+    <string name="home_identify_insects">Identify\nInsects</string>
+    <string name="home_count_insects">Count\nInsects</string>
+    <string name="home_pest_library">Insect Library</string>
+    <string name="home_insect_recommendations">Insect Recommendations</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_history">History</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_stats">Stats</string>
+
+    <!-- History Screen -->
+    <string name="history_subtitle">View your pest identification history</string>
+    <string name="history_empty_title">No Records Yet</string>
+    <string name="history_empty_desc">Start identifying pests to see your history here</string>
+    <string name="btn_clear_history">Clear History</string>
+    <string name="btn_view_details">View Details</string>
+    
+    <!-- Settings Screen -->
+    <string name="settings_subtitle">Manage your app preferences and data</string>
+    <string name="settings_preferences">Preferences</string>
+    <string name="settings_app_status">App Status</string>
+    <string name="settings_data_management">Data Management</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_theme">Theme</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_system">System</string>
+    <string name="settings_version">App Version</string>
+    <string name="settings_database">Database Status</string>
+    <string name="settings_database_ready">Ready</string>
+    <string name="settings_records">Total Records</string>
+    <string name="btn_clear_all_history">Clear All History</string>
+    <string name="btn_export_data">Export Data</string>
+    <string name="btn_logout">Logout</string>
+
+    <!-- Language Options -->
+    <string name="language_english">English</string>
+    <string name="language_tagalog">Tagalog</string>
+
+    <!-- Recommendation Screen -->
+    <string name="rec_title">Report an Insect</string>
+    <string name="rec_tap_photo">Tap to add photo</string>
+    <string name="rec_image_required">Image is required</string>
+    <string name="rec_insect_name_hint">Insect Name (Optional)</string>
+    <string name="rec_description_hint">Description</string>
+    <string name="rec_description_placeholder">Describe the insect, where you found it, or what crops it is attacking.</string>
+    <string name="rec_btn_submit">Submit Report</string>
+    <string name="rec_error_description">Description is required</string>
+    <string name="rec_success_msg">Report Saved!</string>
+
+    <!-- Statistics Screen -->
+    <string name="stats_title">Statistics</string>
+    <string name="stats_subtitle">Track your pest detection progress</string>
+    <string name="stats_total">Total</string>
+    <string name="stats_common">Common</string>
+    <string name="stats_status">Status</string>
+    <string name="stats_pests">Pests</string>
+    <string name="stats_beneficial">Beneficial</string>
+    <string name="stats_detections_over_time">Pest Activity Over Time</string>
+    <string name="stats_pest_composition">Insect Composition</string>
+    <string name="stats_time_day">Day</string>
+    <string name="stats_time_week">Week</string>
+    <string name="stats_time_month">Month</string>
+
+    <!-- Confirmation Screen -->
+    <string name="conf_title_beneficial">Insects Detected!</string>
+    <string name="conf_title_match">Is this a match?</string>
+    <string name="conf_btn_save">Save Record</string>
+    <string name="conf_btn_yes">Yes, it is!</string>
+    <string name="conf_btn_no">No, it\'s not.</string>
+
+    <!-- Counting Screen -->
+    <string name="count_total_label">Total Insects Detected: %1$d</string>
+
+    <!-- Notification Dialog -->
+    <string name="notif_history_title">Notification History</string>
+    <string name="notif_recent_title">Recent Notifications</string>
+    <string name="notif_btn_clear_all">Clear All</string>
+    <string name="notif_empty_msg">No notifications available</string>
+    <string name="notif_clear_warning_title">Clear Notifications</string>
+    <string name="notif_clear_warning_msg">Are you sure you want to clear all your notification history? This cannot be undone.</string>
+    <string name="notif_success_cleared">Notification history cleared</string>
+
+    <!-- Report Details -->
+    <string name="report_details_title">Count Report Details</string>
+    <string name="report_details_empty">No insect details available.</string>
+
+    <!-- Tutorial Strings -->
+    <string name="tutorial_btn_next">Next</string>
+    <string name="tutorial_btn_skip">Skip</string>
+    <string name="tutorial_btn_finish">Finish</string>
+
+    <string name="tutorial_step1_title">Home Page</string>
+    <string name="tutorial_step1_desc">This is your main dashboard. You can quickly access identification and counting tools here.</string>
+
+    <string name="tutorial_step2_title">Identify Insects</string>
+    <string name="tutorial_step2_desc">Tap here to identify a single insect from a photo.</string>
+
+    <string name="tutorial_step3_title">Count Insects</string>
+    <string name="tutorial_step3_desc">Use this tool to count multiple insects in a single field photo.</string>
+
+    <string name="tutorial_step4_title">Insect Library</string>
+    <string name="tutorial_step4_desc">Learn more about the insects you find in your farm here.</string>
+
+    <string name="tutorial_step5_title">History</string>
+    <string name="tutorial_step5_desc">Review all your previous detections and reports in this tab.</string>
+
+    <string name="tutorial_step6_title">Statistics</string>
+    <string name="tutorial_step6_desc">Track your farm\'s health trends and see which insects are most common over time.</string>
+
+    <string name="tutorial_step7_title">Settings</string>
+    <string name="tutorial_step7_desc">Manage your language, theme, and application data here.</string>
+
+    <string name="tutorial_step8_title">Revisit Tutorial</string>
+    <string name="tutorial_step8_desc">Need help again? Tap this icon anytime to restart this guide.</string>
+
+    <!-- Pest Details - General -->
+    <string name="pest_details_general_info">General Information</string>
+    <string name="pest_details_life_cycle">Life Cycle</string>
+    <string name="pest_details_bio_controls">Biological Controls</string>
+    <string name="pest_details_cultural_practices">Cultural Practices</string>
+    <string name="pest_details_chemical_pesticides">Chemical Pesticides (Active Ingredients)</string>
+    <string name="pest_details_beneficial_status">Beneficial Status</string>
+
+    <!-- Pest Details - Aphids -->
+    <string name="aphids_name">Aphids</string>
+    <string name="aphids_general_desc">Small, pear-shaped, soft-bodied insects that suck sap from plant tissues. They cluster on the undersides of leaves and new growth. They secrete a sticky substance called \'honeydew,\' which leads to black sooty mold fungus and attracts ants.</string>
+    <string name="aphids_lifecycle_egg">Stage 1: Egg (Overwintering)\nIn autumn, eggs are laid on branches to survive the winter and hatch the following spring.</string>
+    <string name="aphids_lifecycle_nymph">Stage 2: Nymph\nYoung aphids hatch or are born alive. They look like tiny adults and molt several times to reach maturity rapidly.</string>
+    <string name="aphids_lifecycle_wingless">Stage 3: Wingless Adult (Summer Cycle)\nDuring the growing season, females are usually wingless and give birth to live young (viviparous) without mating, creating explosive population growth.</string>
+    <string name="aphids_lifecycle_winged">Stage 4: Winged Adult (Migration)\nWhen the colony becomes overcrowded, winged adults develop. These fly to new plants to start new colonies.</string>
+    <string name="aphids_bio_predators">Predators: Lady beetles (Ladybugs) and their larvae, Green Lacewing larvae (often called \'aphid lions\'), and Hoverfly larvae.</string>
+    <string name="aphids_bio_parasitoids">Parasitoids: Tiny parasitic wasps (like Aphidius species) turn aphids into crusty, bronze-colored \'mummies.\'</string>
+    <string name="aphids_cultural_sprays">Water Sprays: Blasting plants with a strong stream of water physically knocks aphids off; they often cannot climb back up.</string>
+    <string name="aphids_cultural_nitrogen">Nitrogen Management: Avoid excessive nitrogen fertilizer, which creates the lush, tender growth that aphids love.</string>
+    <string name="aphids_cultural_mulch">Reflective Mulches: Silver or aluminum-colored mulches can confuse aphids and repel them from landing on plants.</string>
+
+    <!-- Pest Details - Leaf Beetle -->
+    <string name="leaf_beetle_name">Leaf Beetle</string>
+    <string name="leaf_beetle_general_desc">This refers to the family Chrysomelidae (which includes Flea Beetles and Cucumber Beetles). They are often metallic or brightly colored. Adults chew \'shotholes\' (small round holes) in leaves, while larvae may feed on roots or skeletonize leaves.</string>
+    <string name="leaf_beetle_lifecycle_egg">Stage 1: Egg\nClusters of eggs are laid in the soil or on the undersides of leaves.</string>
+    <string name="leaf_beetle_lifecycle_larva">Stage 2: Larva (Feeding Stage)\nWorm-like larvae hatch and feed voraciously on roots or foliage.</string>
+    <string name="leaf_beetle_lifecycle_pupa">Stage 3: Pupa (Transformation)\nThe larvae drop to the soil to enter a resting stage called the pupa, where they transform into their adult form.</string>
+    <string name="leaf_beetle_lifecycle_adult">Stage 4: Adult (Reproduction)\nBeetles emerge to feed and reproduce. They often hibernate (overwinter) in leaf litter to survive the cold before laying eggs again.</string>
+    <string name="leaf_beetle_bio_parasitoids">Parasitoids: Parasitic wasps (such as Microctonus species) lay eggs inside the adult beetles.</string>
+    <string name="leaf_beetle_bio_nematodes">Entomopathogenic Nematodes: Microscopic worms applied to the soil that hunt and kill the soil-dwelling larval stages.</string>
+    <string name="leaf_beetle_bio_fungi">Fungi: Beauveria bassiana can infect both adults and larvae.</string>
+    <string name="leaf_beetle_cultural_trap">Trap Crops: Plant a highly attractive crop (like mustard for flea beetles) near the main crop to lure pests away, then destroy the pests on the trap crop.</string>
+    <string name="leaf_beetle_cultural_covers">Floating Row Covers: Use white fabric covers immediately after planting to physically block adults from reaching the crop.</string>
+    <string name="leaf_beetle_cultural_sanitation">Sanitation: Remove crop debris and weeds at the end of the season to remove overwintering shelter for adults.</string>
+
+    <!-- Pest Details - Pygmy Grasshopper -->
+    <string name="pygmy_grasshopper_name">Pygmy Grasshopper</string>
+    <string name="pygmy_grasshopper_general_desc">Also known as \'Grouse Locusts\' (Family Tetrigidae), these are very small (less than 20mm), dark-colored insects. They are easily distinguished by their pronotum (the shield-like plate behind the head), which extends all the way back over the abdomen, often looking like a long tail.</string>
+    <string name="pygmy_grasshopper_beneficial_why">Why they are beneficial: Unlike pest grasshoppers, Pygmy Grasshoppers generally do not eat crops or garden plants. They are detritivores and algae-eaters. They are beneficial because they contribute to nutrient cycling and soil health by breaking down organic matter.</string>
+    <string name="pygmy_grasshopper_beneficial_diet">Diet (What they eat): They primarily feed on algae, moss, lichens, and decomposing organic matter (detritus) found in moist soil or mud.</string>
+    <string name="pygmy_grasshopper_beneficial_note">Note: They are not predators; they do not eat other insects or pests. Their beneficial role is environmental (cleaning up detritus) rather than predatory.</string>
+    <string name="pygmy_grasshopper_lifecycle_egg">Stage 1: Egg\nEggs are laid in mud, moist soil, or moss.</string>
+    <string name="pygmy_grasshopper_lifecycle_nymph">Stage 2: Nymph (Feeding Stage)\nNymphs hatch and immediately begin feeding on algae and detritus. They look like smaller versions of the adult.</string>
+    <string name="pygmy_grasshopper_lifecycle_adult">Stage 3: Adult (Overwintering)\nAdults are distinguished by their long pronotum. Many overwinter as adults, allowing them to be active near water or mud banks very early in the spring.</string>
+
+    <!-- Pest Details - Slant-faced Grasshopper -->
+    <string name="slant_faced_grasshopper_name">Slant-faced Grasshopper</string>
+    <string name="slant_faced_grasshopper_general_desc">These grasshoppers (Subfamily Gomphocerinae) are identified by their faces, which slant backward toward the body, and their pointed heads. They are primary pests of grasses, grains, and rangeland crops. They chew on leaves and stems, often stripping plants entirely during heavy infestations.</string>
+    <string name="slant_faced_grasshopper_lifecycle_egg">Stage 1: Egg (Overwintering)\nFemales lay \'pods\' of eggs in the soil during late summer or fall, which remain in the ground throughout the winter.</string>
+    <string name="slant_faced_grasshopper_lifecycle_nymph">Stage 2: Nymph (Feeding Stage)\nIn spring, wingless nymphs hatch. They resemble small adults and pass through about 5 growth stages (instars) over 30–50 days.</string>
+    <string name="slant_faced_grasshopper_lifecycle_adult">Stage 3: Adult (Reproduction)\nFully winged adults emerge in summer to feed, mate, and lay the next generation of egg pods.</string>
+    <string name="slant_faced_grasshopper_bio_pathogens">Pathogens: Nosema locustae is a protozoan bait that insecs grasshoppers and reduces their feeding and reproduction (slow-acting). The fungus Beauveria bassiana is also effective.</string>
+    <string name="slant_faced_grasshopper_bio_predators">Predators: Natural predators include blister beetle larvae (which eat grasshopper eggs), birds, and spiders.</string>
+    <string name="slant_faced_grasshopper_cultural_tillage">Tillage: Tilling the soil in late fall or early spring destroys egg pods and exposes them to predators.</string>
+    <string name="slant_faced_grasshopper_cultural_trap">Trap Strips: Leave strips of unmowed green vegetation to attract grasshoppers, then treat only those strips to reduce chemical use.</string>
+    <string name="slant_faced_grasshopper_cultural_weed">Weed Control: Eliminate weeds (like kochia or thistle) along field borders where nymphs often hatch and start feeding.</string>
+</resources>

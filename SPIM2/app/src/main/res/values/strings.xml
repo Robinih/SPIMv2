@@ -1,0 +1,117 @@
+<resources>
+    <string name="app_name">SPIM</string>
+    
+    <!-- Main UI Text -->
+    <string name="app_title">Smart Pest Infestation Monitor</string>
+    <string name="app_subtitle">Identify pests from images to prevent early crop damage</string>
+    <string name="app_description">Advanced AI-powered pest detection for agricultural protection</string>
+    
+    <!-- Button Labels -->
+    <string name="btn_capture_image">📷 Capture Image</string>
+    <string name="btn_load_image">🖼️ Load Image</string>
+    <string name="btn_retry">🔄 Try Again</string>
+    <string name="btn_analyze">🔍 Analyze Image</string>
+    
+    <!-- Status Messages -->
+    <string name="status_ready">Ready to analyze</string>
+    <string name="status_analyzing">Analyzing image…</string>
+    <string name="status_processing">Processing…</string>
+    <string name="status_complete">Analysis complete</string>
+    <string name="status_error">Analysis failed</string>
+    
+    <!-- Result Labels -->
+    <string name="result_detected_pest">Detected Pest:</string>
+    <string name="result_confidence">Confidence:</string>
+    <string name="result_unknown">Unknown pest detected</string>
+    <string name="result_no_pest">No pest detected</string>
+    <string name="result_tap_to_search">Tap result to search online</string>
+    <string name="result_help_text">Helps reduce crop infestation</string>
+    
+    <!-- Placeholder Text -->
+    <string name="placeholder_image">No image selected</string>
+    <string name="placeholder_result">Result will appear here</string>
+    <string name="placeholder_confidence">--%</string>
+    
+    <!-- Permission Messages -->
+    <string name="permission_camera_title">Camera Permission Required</string>
+    <string name="permission_camera_message">SPIM needs camera access to capture pest images for analysis.</string>
+    <string name="permission_storage_title">Storage Permission Required</string>
+    <string name="permission_storage_message">SPIM needs storage access to load and save pest images.</string>
+    <string name="permission_denied">Permission denied. Please enable in settings.</string>
+    <string name="permission_granted">Permission granted</string>
+    
+    <!-- Error Messages -->
+    <string name="error_camera_unavailable">Camera not available</string>
+    <string name="error_image_load_failed">Failed to load image</string>
+    <string name="error_analysis_failed">Analysis failed. Please try again.</string>
+    <string name="error_model_load_failed">Model loading failed</string>
+    <string name="error_no_image">No image to analyze</string>
+    <string name="error_save_failed">Failed to save image</string>
+    <string name="error_save_success">Image saved successfully</string>
+    
+    <!-- Dialog Messages -->
+    <string name="dialog_save_title">Save Image?</string>
+    <string name="dialog_save_message">Do you want to save this image to your gallery?</string>
+    <string name="dialog_yes">Yes</string>
+    <string name="dialog_no">No</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_ok">OK</string>
+    
+    <!-- Accessibility -->
+    <string name="content_description_camera">Camera button to capture pest image</string>
+    <string name="content_description_gallery">Gallery button to select pest image</string>
+    <string name="content_description_image">Pest image for analysis</string>
+    <string name="content_description_result">Pest identification result</string>
+    
+    <!-- Tips and Help -->
+    <string name="tip_camera">💡 Tip: Ensure good lighting for better detection</string>
+    <string name="tip_focus">💡 Tip: Focus on the pest for accurate identification</string>
+    <string name="tip_angle">💡 Tip: Capture from different angles if needed</string>
+    
+    <!-- Confidence Levels -->
+    <string name="confidence_high">High confidence</string>
+    <string name="confidence_medium">Medium confidence</string>
+    <string name="confidence_low">Low confidence</string>
+    <string name="confidence_very_low">Very low confidence</string>
+    
+    <!-- Welcome Screen -->
+    <string name="btn_get_started">Get Started</string>
+    <string name="feature_camera_title">Camera Capture</string>
+    <string name="feature_camera_desc">Take photos of pests for instant identification</string>
+    <string name="feature_ai_title">AI Analysis</string>
+    <string name="feature_ai_desc">Advanced machine learning for accurate pest detection</string>
+    <string name="feature_history_title">History Tracking</string>
+    <string name="feature_history_desc">Keep track of all your pest identification records</string>
+    <string name="feature_offline_title">Offline Support</string>
+    <string name="feature_offline_desc">Works completely offline with local database</string>
+    
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_history">History</string>
+    <string name="nav_settings">Settings</string>
+    
+    <!-- History Screen -->
+    <string name="history_subtitle">View your pest identification history</string>
+    <string name="history_empty_title">No Records Yet</string>
+    <string name="history_empty_desc">Start identifying pests to see your history here</string>
+    <string name="btn_clear_history">Clear History</string>
+    <string name="btn_view_details">View Details</string>
+    
+    <!-- Settings Screen -->
+    <string name="settings_subtitle">Customize your app experience</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_theme">Theme</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_system">System</string>
+    <string name="settings_version">App Version</string>
+    <string name="settings_database">Database Status</string>
+    <string name="settings_database_ready">Ready</string>
+    <string name="settings_records">Total Records</string>
+    <string name="btn_clear_all_history">Clear All History</string>
+    <string name="btn_export_data">Export Data</string>
+    
+    <!-- Language Options -->
+    <string name="language_english">English</string>
+    <string name="language_tagalog">Tagalog</string>
+</resources>

@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Main UI Text -->
+    <string name="app_title">Smart Pest Infestation Monitor</string>
+    <string name="app_subtitle">Tukuyin ang mga peste mula sa larawan upang maiwasan ang maagang pinsala sa pananim</string>
+    <string name="app_description">Makabagong AI na teknolohiya para sa pagtukoy ng peste at proteksyon sa agrikultura</string>
+
+    <!-- Button Labels -->
+    <string name="btn_capture_image">📷 Kunan ng Larawan</string>
+    <string name="btn_load_image">🖼️ Mag-load ng Larawan</string>
+    <string name="btn_retry">Subukang Muli</string>
+    <string name="btn_analyze">Suriin ang Larawan</string>
+
+    <!-- Status Messages -->
+    <string name="status_ready">Handa nang magsuri</string>
+    <string name="status_analyzing">Sinusuri ang larawan…</string>
+    <string name="status_processing">Pinoproseso…</string>
+    <string name="status_complete">Tapos na ang pagsusuri</string>
+    <string name="status_error">Nabigo ang pagsusuri</string>
+
+    <!-- Result Labels -->
+    <string name="result_detected_pest">Natukoy na Peste:</string>
+    <string name="result_confidence">Katiyakan:</string>
+    <string name="result_unknown">Hindi kilalang peste ang natukoy</string>
+    <string name="result_no_pest">Walang natukoy na peste</string>
+    <string name="result_tap_to_search">Pindutin ang resulta upang maghanap online</string>
+    <string name="result_help_text">Tumutulong upang mabawasan ang peste sa pananim</string>
+
+    <!-- Placeholder Text -->
+    <string name="placeholder_image">Walang napiling larawan</string>
+    <string name="placeholder_result">Dito lalabas ang resulta</string>
+    <string name="placeholder_confidence">--%</string>
+
+    <!-- Permission Messages -->
+    <string name="permission_camera_title">Kinakailangan ang Pahintulot sa Kamera</string>
+    <string name="permission_camera_message">Kailangan ng SPIM ng access sa kamera upang makuhanan ng larawan ang mga peste para sa pagsusuri.</string>
+    <string name="permission_storage_title">Kinakailangan ang Pahintulot sa Storage</string>
+    <string name="permission_storage_message">Kailangan ng SPIM ng access sa storage upang mag-load at mag-save ng mga larawan ng peste.</string>
+    <string name="permission_denied">Tinanggihan ang pahintulot. Pakisiguro na naka-enable ito sa settings.</string>
+    <string name="permission_granted">Nabigyan ng pahintulot</string>
+
+    <!-- Error Messages -->
+    <string name="error_camera_unavailable">Hindi magamit ang kamera</string>
+    <string name="error_image_load_failed">Nabigong mag-load ng larawan</string>
+    <string name="error_analysis_failed">Nabigo ang pagsusuri. Pakisubukang muli.</string>
+    <string name="error_model_load_failed">Nabigong i-load ang modelo</string>
+    <string name="error_no_image">Walang larawang susuriin</string>
+    <string name="error_save_failed">Nabigong i-save ang larawan</string>
+    <string name="error_save_success">Matagumpay na na-save ang larawan</string>
+
+    <!-- Dialog Messages -->
+    <string name="dialog_save_title">I-save ang Larawan?</string>
+    <string name="dialog_save_message">Gusto mo bang i-save ang larawang ito sa iyong gallery?</string>
+    <string name="dialog_yes">Oo</string>
+    <string name="dialog_no">Hindi</string>
+    <string name="dialog_cancel">Kanselahin</string>
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_login_required_title">Kailangan ng Login</string>
+    <string name="dialog_login_required_message">Kailangan mong mag-login upang mag-rekomenda ng insekto. Mangyaring mag-login o gumawa ng account upang magamit ang feature na ito.</string>
+    <string name="dialog_logout_title">Logout</string>
+    <string name="dialog_logout_message">Sigurado ka bang gusto mong mag-logout?</string>
+
+    <!-- Accessibility -->
+    <string name="content_description_camera">Button ng kamera para kumuha ng larawan ng peste</string>
+    <string name="content_description_gallery">Button ng gallery para pumili ng larawan ng peste</string>
+    <string name="content_description_image">Larawan ng peste para sa pagsusuri</string>
+    <string name="content_description_result">Resulta ng pagtukoy ng peste</string>
+
+    <!-- Tips and Help -->
+    <string name="tip_camera">Tip: Siguraduhing may maayos na ilaw para sa mas tumpak na pagtukoy</string>
+    <string name="tip_focus">Tip: Ituon ang larawan sa peste para sa mas eksaktong pagkilala</string>
+    <string name="tip_angle">Tip: Kunan mula sa iba’t ibang anggulo kung kinakailangan</string>
+
+    <!-- Confidence Levels -->
+    <string name="confidence_high">Mataas ang katiyakan</string>
+    <string name="confidence_medium">Katamtamang katiyakan</string>
+    <string name="confidence_low">Mababang katiyakan</string>
+    <string name="confidence_very_low">Napakababang katiyakan</string>
+
+    <!-- Welcome Screen -->
+    <string name="welcome_title">Protektahan ang Iyong mga Pananim</string>
+    <string name="welcome_desc">Maligayang pagdating sa SPIM. Ang aming makabagong AI ay tumutulong sa iyo na subaybayan, tukuyin, at bilangin ang mga peste sa real-time upang matiyak na mananatiling malusog ang iyong ani.</string>
+    <string name="btn_login">Mag-login</string>
+    <string name="btn_continue_guest">Magpatuloy bilang Guest</string>
+    <string name="btn_get_started">Magsimula</string>
+    <string name="feature_camera_title">Pagkuha ng Larawan</string>
+    <string name="feature_camera_desc">Kumuhang larawan ng peste para sa agarang pagkilala</string>
+    <string name="feature_ai_title">AI na Pagsusuri</string>
+    <string name="feature_ai_desc">Makabagong machine learning para sa tumpak na pagtukoy ng peste</string>
+    <string name="feature_history_title">Kasaysayan ng Pagsusuri</string>
+    <string name="feature_history_desc">Subayabayan ang lahat ng iyong mga resulta ng pagtukoy ng peste</string>
+    <string name="feature_offline_title">Offline na Suporta</string>
+    <string name="feature_offline_desc">Gumagana kahit walang internet gamit ang lokal na database</string>
+
+    <!-- Login Screen -->
+    <string name="login_welcome_back">Maligayang Pagbabalik!</string>
+    <string name="login_signin_subtitle">Mag-sign in upang magpatuloy sa pagsubaybay</string>
+    <string name="login_username_hint">Username</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_forgot_password">Nakalimutan ang Password?</string>
+    <string name="login_no_account">Wala pang account? Mag-Sign Up</string>
+
+    <!-- Sign Up Screen -->
+    <string name="signup_create_account">Gumawa ng Account</string>
+    <string name="signup_subtitle">Sumali sa aming komunidad ng mga magsasaka</string>
+    <string name="signup_full_name_hint">Buong Pangalan ng Magsasaka</string>
+    <string name="signup_farm_address_hint">Address ng Bukid</string>
+    <string name="signup_confirm_password_hint">Ipasok muli ang Password</string>
+    <string name="signup_btn_register">Mag-Sign Up</string>
+    <string name="signup_already_account">Mayroon nang account? Mag-Login</string>
+    <string name="signup_success">Matagumpay na nagawa ang account!</string>
+    <string name="error_name_required">Kailangan ang Buong Pangalan</string>
+    <string name="error_municipality_required">Kailangan ang Munisipalidad</string>
+    <string name="error_address_required">Kailangan ang Kalye/Barangay</string>
+    <string name="error_username_required">Kailangan ang Username</string>
+    <string name="error_password_required">Kailangan ang Password</string>
+    <string name="error_password_short">Ang password ay dapat hindi bababa sa 6 na karakter</string>
+    <string name="error_confirm_password_required">Mangyaring kumpirmahin ang iyong password</string>
+    <string name="error_passwords_mismatch">Hindi tumutugma ang mga password</string>
+
+    <!-- Home Screen -->
+    <string name="home_welcome_guest">Maligayang pagdating, Guest!</string>
+    <string name="home_welcome_user">Maligayang pagdating, %1$s!</string>
+    <string name="home_ready_monitor">Handa nang subaybayan ang iyong mga pananim?</string>
+    <string name="home_identify_insects">Tukuyin\nang Insekto</string>
+    <string name="home_count_insects">Bilangin\nang Insekto</string>
+    <string name="home_pest_library">Library ng Insekto</string>
+    <string name="home_insect_recommendations">Rekomendasyon ng Insekto</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_history">Kasaysayan</string>
+    <string name="nav_settings">Mga Setting</string>
+    <string name="nav_stats">Estadistika</string>
+
+    <!-- History Screen -->
+    <string name="history_subtitle">Tingnan ang iyong kasaysayan ng pagtukoy ng peste</string>
+    <string name="history_empty_title">Wala Pang Rekord</string>
+    <string name="history_empty_desc">Simulan ang pagtukoy ng mga peste upang lumabas dito ang iyong kasaysayan</string>
+    <string name="btn_clear_history">Burahin ang Kasaysayan</string>
+    <string name="btn_view_details">Tingnan ang Detalye</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_subtitle">I-customize ang iyong karanasan sa app</string>
+    <string name="settings_language">Wika</string>
+    <string name="settings_theme">Tema</string>
+    <string name="theme_light">Maliwanag</string>
+    <string name="theme_dark">Madilim</string>
+    <string name="theme_system">Sistema</string>
+    <string name="settings_version">Bersyon ng App</string>
+    <string name="settings_database">Kalagayan ng Database</string>
+    <string name="settings_database_ready">Handa</string>
+    <string name="settings_records">Kabuuang Rekord</string>
+    <string name="btn_clear_all_history">Burahin Lahat ng Kasaysayan</string>
+    <string name="btn_export_data">I-export ang Data</string>
+    <string name="btn_logout">Logout</string>
+
+    <!-- Language Options -->
+    <string name="language_english">Ingles</string>
+    <string name="language_tagalog">Tagalog</string>
+
+    <!-- Recommendation Screen -->
+    <string name="rec_title">Mag-ulat ng Insekto</string>
+    <string name="rec_tap_photo">Pindutin para magdagdag ng larawan</string>
+    <string name="rec_image_required">Kailangan ng larawan</string>
+    <string name="rec_insect_name_hint">Pangalan ng Insekto (Opsyonal)</string>
+    <string name="rec_description_hint">Deskripsyon</string>
+    <string name="rec_description_placeholder">Ilarawan ang insekto, kung saan mo ito nahanap, o kung anong mga pananim ang inaatake nito.</string>
+    <string name="rec_btn_submit">I-sumite ang Ulat</string>
+    <string name="rec_error_description">Kailangan ng deskripsyon</string>
+    <string name="rec_success_msg">Nai-save na ang Ulat!</string>
+
+    <!-- Statistics Screen -->
+    <string name="stats_title">Estadistika</string>
+    <string name="stats_subtitle">Subaybayan ang iyong pag-unlad sa pagtukoy ng peste</string>
+    <string name="stats_total">Kabuuan</string>
+    <string name="stats_common">Karaniwan</string>
+    <string name="stats_status">Kalagayan</string>
+    <string name="stats_pests">Mga Peste</string>
+    <string name="stats_beneficial">Kapaki-pakinabang</string>
+    <string name="stats_detections_over_time">Aktibidad ng Peste sa paglipas ng panahon</string>
+    <string name="stats_pest_composition">Komposisyon ng mga Insekto</string>
+    <string name="stats_time_day">Araw</string>
+    <string name="stats_time_week">Linggo</string>
+    <string name="stats_time_month">Buwan</string>
+
+    <!-- Confirmation Screen -->
+    <string name="conf_title_beneficial">Mga Insekto ay Natukoy!</string>
+    <string name="conf_title_match">Ito ba ay tumutugma?</string>
+    <string name="conf_btn_save">I-save ang Rekord</string>
+    <string name="conf_btn_yes">Oo, ito nga!</string>
+    <string name="conf_btn_no">Hindi, hindi ito.</string>
+
+    <!-- Counting Screen -->
+    <string name="count_total_label">Kabuuang Natukoy na Insekto: %1$d</string>
+
+    <!-- Tutorial Strings -->
+    <string name="tutorial_btn_next">Susunod</string>
+    <string name="tutorial_btn_skip">Laktawan</string>
+    <string name="tutorial_btn_finish">Tapos na</string>
+
+    <string name="tutorial_step1_title">Pangunahing Pahina</string>
+    <string name="tutorial_step1_desc">Ito ang iyong pangunahing dashboard. Maaari mong mabilis na ma-access ang mga tool sa pagtukoy at pagbilang dito.</string>
+
+    <string name="tutorial_step2_title">Tukuyin ang Insekto</string>
+    <string name="tutorial_step2_desc">Pindutin dito upang tukuyin ang isang insekto mula sa isang larawan.</string>
+
+    <string name="tutorial_step3_title">Bilangin ang Insekto</string>
+    <string name="tutorial_step3_desc">Gamitin ang tool na ito upang bilangin ang maraming insekto sa isang larawan sa bukid.</string>
+
+    <string name="tutorial_step4_title">Library ng Insekto</string>
+    <string name="tutorial_step4_desc">Matuto pa tungkol sa mga insektong mahahanap mo sa iyong bukid dito.</string>
+
+    <string name="tutorial_step5_title">Kasaysayan</string>
+    <string name="tutorial_step5_desc">Suriin ang lahat ng iyong mga nakaraang pagtukoy at ulat sa tab na ito.</string>
+
+    <string name="tutorial_step6_title">Estadistika</string>
+    <string name="tutorial_step6_desc">Subayabayan ang kalusugan ng iyong bukid at tingnan kung aling mga insekto ang pinakakaraniwan.</string>
+
+    <string name="tutorial_step7_title">Mga Setting</string>
+    <string name="tutorial_step7_desc">Pamahalaan ang iyong wika, tema, at data ng aplikasyon dito.</string>
+
+    <string name="tutorial_step8_title">Ulitin ang Tutorial</string>
+    <string name="tutorial_step8_desc">Kailangan ng tulong muli? Pindutin ang icon na ito anumang oras upang ulitin ang gabay na ito.</string>
+
+    <!-- Pest Details - General -->
+    <string name="pest_details_general_info">Pangkalahatang Impormasyon</string>
+    <string name="pest_details_life_cycle">Siklo ng Buhay</string>
+    <string name="pest_details_bio_controls">Biyolohikal na Kontrol</string>
+    <string name="pest_details_cultural_practices">Kultural na Pamamaraan</string>
+    <string name="pest_details_chemical_pesticides">Kemikal na Pestisidyo (Active Ingredients)</string>
+    <string name="pest_details_beneficial_status">Katayuan ng Kapakinabangan</string>
+
+    <!-- Pest Details - Aphids -->
+    <string name="aphids_name">Aphids</string>
+    <string name="aphids_general_desc">Maliliit, hugis peras, at malambot na katawan na insekto na sumisipsip ng dagta mula sa mga tisyu ng halaman. Nagkukumpulan sila sa ilalim ng mga dahon at bagong usbong. Naglalabas sila ng malagkit na substance na tinatawag na \'honeydew,\' na nagiging sanhi ng black sooty mold fungus at nakakaakit ng mga langgam.</string>
+    <string name="aphids_lifecycle_egg">Stage 1: Itlog (Overwintering)\nSa taglagas, nangingitlog sila sa mga sanga upang makaligtas sa taglamig at mapisa sa susunod na tagsibol.</string>
+    <string name="aphids_lifecycle_nymph">Stage 2: Nymph\nAng mga batang aphids ay napipisa o ipinanganak nang buhay. Mukha silang maliliit na matatanda at nagpapalit ng balat nang ilang beses upang mabilis na maging ganap na insekto.</string>
+    <string name="aphids_lifecycle_wingless">Stage 3: Walang Pakpak na Matanda (Summer Cycle)\nSa panahon ng paglaki, ang mga babae ay karaniwang walang pakpak at nanganganak ng buhay na supling (viviparous) nang hindi nakikipagtalik, na lumilikha ng mabilis na pagdami ng populasyon.</string>
+    <string name="aphids_lifecycle_winged">Stage 4: May Pakpak na Matanda (Migration)\nKapag naging masyadong masikip ang kolonya, nagkakaroon ng mga matatandang may pakpak. Ang mga ito ay lumilipad sa mga bagong halaman upang magsimula ng bagong kolonya.</string>
+    <string name="aphids_bio_predators">Predators: Lady beetles (Ladybugs) at ang kanilang larvae, Green Lacewing larvae (madalas tinatawag na \'aphid lions\'), at Hoverfly larvae.</string>
+    <string name="aphids_bio_parasitoids">Parasitoids: Maliliit na parasitikong putakti (tulad ng mga species ng Aphidius) na ginagawang matigas at kulay tansong \'mummies\' ang mga aphids.</string>
+    <string name="aphids_cultural_sprays">Pag-spray ng Tubig: Ang pag-spray sa mga halaman ng malakas na agos ng tubig ay pisikal na nagpapatalsik sa mga aphids; kadalasan ay hindi na sila makakaakyat muli.</string>
+    <string name="aphids_cultural_nitrogen">Pamamahala ng Nitrogen: Iwasan ang sobrang nitrogen fertilizer, na lumilikha ng malago at malambot na usbong na paborito ng mga aphids.</string>
+    <string name="aphids_cultural_mulch">Reflective Mulches: Ang mga silver o aluminum-colored na mulch ay maaaring makalito sa mga aphids at magtaboy sa kanila mula sa paglapag sa mga halaman.</string>
+
+    <!-- Pest Details - Leaf Beetle -->
+    <string name="leaf_beetle_name">Leaf Beetle</string>
+    <string name="leaf_beetle_general_desc">Ito ay tumutukoy sa pamilyang Chrysomelidae (na kinabibilangan ng mga Flea Beetle at Cucumber Beetle). Sila ay madalas na kulay metal o matingkad ang kulay. Ang mga matatanda ay ngumunguya ng mga \'shotholes\' (maliliit na bilog na butas) sa mga dahon, habang ang mga larva ay maaaring kumain sa mga ugat o skeletonize ang mga dahon.</string>
+    <string name="leaf_beetle_lifecycle_egg">Stage 1: Itlog\nAng mga kumpol ng itlog ay inilalagay sa lupa o sa ilalim ng mga dahon.</string>
+    <string name="leaf_beetle_lifecycle_larva">Stage 2: Larva (Yugto ng Pagkain)\nAng mga uod na larva ay napipisa at masusungit na kumakain sa mga ugat o mga dahon.</string>
+    <string name="leaf_beetle_lifecycle_pupa">Stage 3: Pupa (Pagbabagong-anyo)\nAng mga larva ay bumabagsak sa lupa upang pumasok sa yugto ng pahinga na tinatawag na pupa, kung saan sila nagbabagong-anyo sa kanilang pangmatandang anyo.</string>
+    <string name="leaf_beetle_lifecycle_adult">Stage 4: Matanda (Pagpaparami)\nAng mga beetle ay lumalabas upang kumain at magparami. Sila ay madalas na nag-hibernate sa mga kalat na dahon upang makaligtas sa lamig bago muling mangitlog.</string>
+    <string name="leaf_beetle_bio_parasitoids">Parasitoids: Ang mga parasitikong putakti (tulad ng mga species ng Microctonus) ay nangingitlog sa loob ng mga matatandang beetle.</string>
+    <string name="leaf_beetle_bio_nematodes">Entomopathogenic Nematodes: Mikroskopikong mga uod na inilalagay sa lupa na nangangaso at pumapatay sa mga yugto ng larva na naninirahan sa lupa.</string>
+    <string name="leaf_beetle_bio_fungi">Fungi: Ang Beauveria bassiana ay maaaring makahawa sa parehong mga matatanda at larva.</string>
+    <string name="leaf_beetle_cultural_trap">Trap Crops: Magtanim ng isang kaakit-akit na pananim (tulad ng mustasa para sa mga flea beetle) malapit sa pangunahing pananim upang maakit ang mga peste palayo, pagkatapos ay sirain ang mga peste sa trap crop.</string>
+    <string name="leaf_beetle_cultural_covers">Floating Row Covers: Gumamit ng puting tela na pantakip kaagad pagkatapos magtanim upang pisikal na harangan ang mga matatanda sa pag-abot sa pananim.</string>
+    <string name="leaf_beetle_cultural_sanitation">Sanitasyon: Alisin ang mga tira-tirang pananim at mga damo sa dulo ng panahon upang alisin ang silungan ng mga matatanda sa panahon ng taglamig.</string>
+
+    <!-- Pest Details - Pygmy Grasshopper -->
+    <string name="pygmy_grasshopper_name">Pygmy Grasshopper</string>
+    <string name="pygmy_grasshopper_general_desc">Kilala rin bilang \'Grouse Locusts\' (Pamilya Tetrigidae), ang mga ito ay napakaliit (mas mababa sa 20mm), madilim na kulay na mga insekto. Sila ay madaling makilala sa pamamagitan ng kanilang pronotum (ang mala-kalasag na plaka sa likod ng ulo), na umaabot hanggang sa dulo ng tiyan, madalas na mukhang mahabang buntot.</string>
+    <string name="pygmy_grasshopper_beneficial_why">Bakit sila kapaki-pakinabang: Hindi tulad ng mga pesteng tipaklong, ang mga Pygmy Grasshopper sa pangkalahatan ay hindi kumakain ng mga pananim o mga halaman sa hardin. Sila ay mga detritivore at kumakain ng algae. Sila ay kapaki-pakinabang dahil nakakatulong sila sa nutrient cycling at kalusugan ng lupa sa pamamagitan ng pag-decompose ng mga organikong bagay.</string>
+    <string name="pygmy_grasshopper_beneficial_diet">Diet (Ano ang kinakain nila): Pangunahin silang kumakain ng algae, lumot, lichen, at nabubulok na organikong bagay (detritus) na matatagpuan sa mamasa-masang lupa o putik.</string>
+    <string name="pygmy_grasshopper_beneficial_note">Tandaan: Sila ay hindi mga predator; hindi sila kumakain ng ibang mga insekto o peste. Ang kanilang kapaki-pakinabang na tungkulin ay pang-kapaligiran (paglilinis ng detritus) sa halip na predatory.</string>
+    <string name="pygmy_grasshopper_lifecycle_egg">Stage 1: Itlog\nAng mga itlog ay inilalagay sa putik, mamasa-masang lupa, o lumot.</string>
+    <string name="pygmy_grasshopper_lifecycle_nymph">Stage 2: Nymph (Yugto ng Pagkain)\nAng mga nymph ay napipisa at agad na nagsisimulang kumain ng algae at detritus. Sila ay mukhang mas maliit na bersyon ng matanda.</string>
+    <string name="pygmy_grasshopper_lifecycle_adult">Stage 3: Matanda (Overwintering)\nAng mga matatanda ay nakikilala sa pamamagitan ng kanilang mahabang pronotum. Marami ang nag-o-overwinter bilang mga matatanda, na nagpapahintulot sa kanila na maging aktibo malapit sa tubig o mga pampang ng putik nang maaga sa tagsibol.</string>
+
+    <!-- Pest Details - Slant-faced Grasshopper -->
+    <string name="slant_faced_grasshopper_name">Slant-faced Grasshopper</string>
+    <string name="slant_faced_grasshopper_general_desc">Ang mga tipaklong na ito (Subfamily Gomphocerinae) ay nakikilala sa pamamagitan ng kanilang mga mukha, na nakahilig paatras sa katawan, at ang kanilang matulis na ulo. Sila ay mga pangunahing peste ng mga damo, butil, at rangeland na pananim. Kinakain nila ang mga dahon at tangkay, na madalas na inuubos ang mga halaman sa panahon ng malalang peste.</string>
+    <string name="slant_faced_grasshopper_lifecycle_egg">Stage 1: Itlog (Overwintering)\nAng mga babae ay nangingitlog ng mga \'pods\' sa lupa sa huling bahagi ng tag-araw o taglagas, na nananatili sa loob ng lupa sa buong taglamig.</string>
+    <string name="slant_faced_grasshopper_lifecycle_nymph">Stage 2: Nymph (Yugto ng Pagkain)\nSa tagsibol, napipisa ang mga nymph na walang pakpak. Mukha silang maliliit na matatanda at dumadaan sa humigit-kumulang 5 yugto ng paglaki (instars) sa loob ng 30–50 araw.</string>
+    <string name="slant_faced_grasshopper_lifecycle_adult">Stage 3: Matanda (Pagpaparami)\nAng mga matatandang may ganap na pakpak ay lumalabas sa tag-araw upang kumain, makipagtalik, at mangitlog para sa susunod na henerasyon.</string>
+    <string name="slant_faced_grasshopper_bio_pathogens">Pathogens: Ang Nosema locustae ay isang protozoan bait na humahawa sa mga tipaklong at binabawasan ang kanilang pagkain at pagpaparami (mabagal kumilos). Ang fungus na Beauveria bassiana ay mabisa rin.</string>
+    <string name="slant_faced_grasshopper_bio_predators">Predators: Ang mga likas na predator ay kinabibilangan ng mga larva ng blister beetle (na kumakain ng mga itlog ng tipaklong), mga ibon, at mga gagamba.</string>
+    <string name="slant_faced_grasshopper_cultural_tillage">Tillage: Ang pagbubungkal ng lupa sa huling bahagi ng taglagas o maagang tagsibol ay sumisira sa mga egg pods at naglalantad sa kanila sa mga predator.</string>
+    <string name="slant_faced_grasshopper_cultural_trap">Trap Strips: Mag-iwan ng mga hanay ng hindi ginapas na berdeng halaman upang maakit ang mga tipaklong, pagkatapos ay gamutin lamang ang mga hanay na iyon upang mabawasan ang paggamit ng kemikal.</string>
+    <string name="slant_faced_grasshopper_cultural_weed">Pagkontrol ng Damo: Alisin ang mga damo (tulad ng kochia o thistle) sa gilid ng bukid kung saan madalas mapisa ang mga nymph at magsimulang kumain.</string>
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Bottom Navigation Active Indicator Style -->
+    <style name="BottomNavigationActiveIndicator">
+        <item name="android:color">@color/primary_green</item>
+    </style>
+</resources>
