@@ -35,6 +35,7 @@ import com.cvsuagritech.spim.fragments.pestpages.SlantFacedGrasshopperDetailsFra
 import com.cvsuagritech.spim.utils.LanguageManager
 import com.cvsuagritech.spim.utils.SessionManager
 import com.cvsuagritech.spim.utils.ThemeManager
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -43,13 +44,14 @@ class MainNavActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainNavBinding
     private lateinit var sessionManager: SessionManager
     private var currentTutorialStep = 0
+    private var isFirstSync = true
     
     private val tutorialSteps by lazy {
         listOf(
             TutorialStep(R.id.nav_home, getString(R.string.tutorial_step1_title), getString(R.string.tutorial_step1_desc), R.id.header_layout),
             TutorialStep(R.id.nav_home, getString(R.string.tutorial_step2_title), getString(R.string.tutorial_step2_desc), R.id.card_identify),
             TutorialStep(R.id.nav_home, getString(R.string.tutorial_step3_title), getString(R.string.tutorial_step3_desc), R.id.card_count),
-            TutorialStep(R.id.nav_home, getString(R.string.tutorial_step4_title), getString(R.string.tutorial_step4_desc), R.id.tv_library_label),
+            TutorialStep(R.id.nav_home, getString(R.string.tutorial_step1_title), getString(R.string.tutorial_step1_desc), R.id.tv_library_label),
             
             TutorialStep(R.id.nav_history, getString(R.string.tutorial_step5_title), getString(R.string.tutorial_step5_desc), R.id.nav_history),
             TutorialStep(R.id.nav_history, getString(R.string.tutorial_step5_sync_title), getString(R.string.tutorial_step5_sync_desc), R.id.btn_sync),
@@ -96,6 +98,7 @@ class MainNavActivity : AppCompatActivity() {
         // Start notification polling if logged in
         if (sessionManager.isLoggedIn()) {
             checkAndRequestNotificationPermission()
+            isFirstSync = true
             startNotificationPolling()
         }
     }
@@ -251,19 +254,27 @@ class MainNavActivity : AppCompatActivity() {
                     try {
                         val response = RetrofitClient.instance.getNotifications(userId)
                         if (response.isSuccessful) {
-                            val notifications = response.body()
+                            val notifications = response.body() ?: emptyList()
                             val lastId = sessionManager.getLastNotificationId()
                             
-                            notifications?.filter { it.id > lastId }?.forEach { 
-                                showSystemNotification(it)
-                                sessionManager.setLastNotificationId(it.id)
+                            if (isFirstSync) {
+                                notifications.maxByOrNull { it.id }?.let { 
+                                    sessionManager.setLastNotificationId(it.id)
+                                }
+                                isFirstSync = false
+                                Log.d("Notifications", "Initial sync complete.")
+                            } else {
+                                notifications.filter { it.id > lastId && !it.isRead }.forEach { 
+                                    showSystemNotification(it)
+                                    sessionManager.setLastNotificationId(it.id)
+                                }
                             }
                         }
                     } catch (e: Exception) {
                         Log.e("Notifications", "Polling error: ${e.message}")
                     }
                 }
-                delay(5 * 60 * 1000) // Poll every 5 minutes
+                delay(30 * 1000) // Poll every 30 seconds
             }
         }
     }
@@ -271,7 +282,7 @@ class MainNavActivity : AppCompatActivity() {
     private fun showSystemNotification(notification: AppNotification) {
         val builder = NotificationCompat.Builder(this, "SPIM_ALERTS")
             .setSmallIcon(R.drawable.logo)
-            .setContentTitle("SPIM Alert: ${notification.level}")
+            .setContentTitle("${notification.level} Alert")
             .setContentText(notification.message)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)

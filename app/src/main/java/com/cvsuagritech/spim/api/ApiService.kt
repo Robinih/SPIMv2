@@ -44,6 +44,21 @@ interface ApiService {
     @GET("api/stats/dashboard")
     suspend fun getDashboardStats(): Response<DashboardStats>
 
+    // Updated based on the latest guide: user_id is a REQUIRED query parameter
     @GET("api/notifications")
-    suspend fun getNotifications(@Query("user_id") userId: Int): Response<List<AppNotification>>
+    suspend fun getNotifications(
+        @Query("user_id") userId: Int
+    ): Response<List<AppNotification>>
+
+    // Updated: Mark all as read using user_id query parameter
+    @POST("api/notifications/read/all")
+    suspend fun markAllNotificationsAsRead(
+        @Query("user_id") userId: Int
+    ): Response<MarkReadResponse>
 }
+
+// Response model for mark read action as per guide
+data class MarkReadResponse(
+    val message: String,
+    val count: Int
+)

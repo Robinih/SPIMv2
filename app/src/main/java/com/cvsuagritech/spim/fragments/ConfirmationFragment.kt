@@ -65,7 +65,9 @@ class ConfirmationFragment : Fragment() {
         binding.referencePestName.text = "${getString(R.string.result_detected_pest)} $pestName"
         
         // Handle Beneficial status for Pygmy Grasshopper
-        if (pestName.lowercase().replace(" ", "") == "pygmygrasshopper") {
+        // Standardizing name comparison to lowercase for better matching with server
+        val normalizedName = pestName.lowercase().replace(" ", "").trim()
+        if (normalizedName == "pygmygrasshopper") {
             binding.tvConfirmationTitle.text = getString(R.string.conf_title_beneficial)
             binding.tvConfirmationTitle.setTextColor(Color.parseColor("#4CAF50")) // Green for beneficial
             binding.btnYes.setBackgroundColor(Color.parseColor("#4CAF50"))
@@ -79,7 +81,7 @@ class ConfirmationFragment : Fragment() {
         
         binding.btnNo.text = getString(R.string.conf_btn_no)
 
-        val resourceId = when (pestName.lowercase().replace(" ", "")) {
+        val resourceId = when (normalizedName) {
             "leafbeetle" -> R.drawable.leafbettle
             "leafhopper", "aphids" -> R.drawable.aphids
             "pygmygrasshopper" -> R.drawable.pygmy
@@ -97,12 +99,14 @@ class ConfirmationFragment : Fragment() {
             lifecycleScope.launch {
                 val imageByteArray = withContext(Dispatchers.IO) {
                     val stream = ByteArrayOutputStream()
-                    userImageBitmap?.compress(Bitmap.CompressFormat.JPEG, 70, stream)
+                    // Higher quality for better server-side analysis
+                    userImageBitmap?.compress(Bitmap.CompressFormat.JPEG, 80, stream)
                     stream.toByteArray()
                 }
 
+                // Ensure name is stored in lowercase to match backend requirements
                 val pestRecord = PestRecord(
-                    pestName = pestName,
+                    pestName = normalizedName,
                     confidence = confidence,
                     imagePath = null,
                     imageBlob = imageByteArray

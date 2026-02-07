@@ -93,16 +93,16 @@ class HomeFragment : Fragment() {
 
     private fun loadNotifications() {
         val sessionManager = SessionManager(requireContext())
+        if (!sessionManager.isLoggedIn()) return
         val userId = sessionManager.getUserId()
-        if (userId == -1) return
 
         lifecycleScope.launch(Dispatchers.IO) {
             try {
                 val response = RetrofitClient.instance.getNotifications(userId)
                 if (response.isSuccessful && response.body() != null) {
                     notificationList = response.body()!!
-                    val unreadCount = notificationList.count { !it.isRead }
                     
+                    val unreadCount = notificationList.count { !it.isRead }
                     withContext(Dispatchers.Main) {
                         binding.notificationBadge.visibility = if (unreadCount > 0) View.VISIBLE else View.GONE
                     }
@@ -114,6 +114,44 @@ class HomeFragment : Fragment() {
     }
 
     private fun showNotificationsDialog() {
+        val sessionManager = SessionManager(requireContext())
+        if (!sessionManager.isLoggedIn()) return
+        val userId = sessionManager.getUserId()
+
+        // Facebook Style: Hide badge immediately when user clicks the bell
+        binding.notificationBadge.visibility = View.GONE
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                // 1. Fetch the latest notifications FIRST (to ensure we have history even if they are about to be marked as read)
+                val response = RetrofitClient.instance.getNotifications(userId)
+                
+                if (response.isSuccessful && response.body() != null) {
+                    notificationList = response.body()!!
+                    
+                    withContext(Dispatchers.Main) {
+                        renderNotificationsDialog()
+                    }
+
+                    // 2. Mark all as read on server in the background AFTER we've fetched the list
+                    RetrofitClient.instance.markAllNotificationsAsRead(userId)
+                } else {
+                    withContext(Dispatchers.Main) {
+                        if (notificationList.isNotEmpty()) renderNotificationsDialog()
+                        else Toast.makeText(requireContext(), "No notifications available", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("HomeFragment", "Dialog Load Error: ${e.message}")
+                withContext(Dispatchers.Main) {
+                    if (notificationList.isNotEmpty()) renderNotificationsDialog()
+                    else Toast.makeText(requireContext(), "Error connecting to server", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun renderNotificationsDialog() {
         if (notificationList.isEmpty()) {
             Toast.makeText(requireContext(), "No notifications available", Toast.LENGTH_SHORT).show()
             return
@@ -121,11 +159,14 @@ class HomeFragment : Fragment() {
 
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_count_details, null)
         val tvTitle = dialogView.findViewById<TextView>(R.id.tv_detail_total)
+        val tvSubtitle = dialogView.findViewById<TextView>(R.id.tv_detail_subtitle)
         val container = dialogView.findViewById<ViewGroup>(R.id.breakdown_container)
         
         tvTitle.text = "Recent Notifications"
+        tvSubtitle.text = "Alert History" 
         
-        notificationList.forEach { notif ->
+        // Show newest notifications first
+        notificationList.sortedByDescending { it.id }.forEach { notif ->
             val row = LayoutInflater.from(requireContext()).inflate(R.layout.item_breakdown_row, container, false)
             val tvMsg = row.findViewById<TextView>(R.id.tv_insect_name)
             val tvDate = row.findViewById<TextView>(R.id.tv_insect_count)
@@ -142,8 +183,12 @@ class HomeFragment : Fragment() {
             }
             tvLevel.setTextColor(ContextCompat.getColor(requireContext(), color))
             
+            // Unread items are bold
             if (!notif.isRead) {
                 tvMsg.setTypeface(null, android.graphics.Typeface.BOLD)
+            } else {
+                tvMsg.setTypeface(null, android.graphics.Typeface.NORMAL)
+                tvMsg.alpha = 0.7f
             }
             
             container.addView(row)
@@ -152,7 +197,10 @@ class HomeFragment : Fragment() {
         AlertDialog.Builder(requireContext())
             .setTitle("Notification History")
             .setView(dialogView)
-            .setPositiveButton("Close", null)
+            .setPositiveButton("Close") { _, _ ->
+                // Refresh locally so the next bell click knows they are now "read"
+                loadNotifications()
+            }
             .setNeutralButton("Clear All") { _, _ ->
                 showClearNotificationsWarning()
             }
@@ -171,12 +219,25 @@ class HomeFragment : Fragment() {
     }
 
     private fun clearNotifications() {
-        // Since the website documentation doesn't have a clear endpoint yet,
-        // we will clear them locally for now and you can tell antigravity
-        // to add a DELETE endpoint later.
-        notificationList = emptyList()
-        binding.notificationBadge.visibility = View.GONE
-        Toast.makeText(requireContext(), "Notification history cleared", Toast.LENGTH_SHORT).show()
+        val sessionManager = SessionManager(requireContext())
+        val userId = sessionManager.getUserId()
+        
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val response = RetrofitClient.instance.markAllNotificationsAsRead(userId)
+                if (response.isSuccessful) {
+                    withContext(Dispatchers.Main) {
+                        notificationList = emptyList()
+                        binding.notificationBadge.visibility = View.GONE
+                        Toast.makeText(requireContext(), "Notification history cleared", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(requireContext(), "Failed to clear notifications", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     private fun setupInsectLibrary() {

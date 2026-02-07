@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import com.cvsuagritech.spim.api.RegisterRequest
 import com.cvsuagritech.spim.api.RetrofitClient
 import com.cvsuagritech.spim.databinding.ActivitySignUpBinding
+import com.cvsuagritech.spim.utils.ThemeManager
 import kotlinx.coroutines.launch
 
 class SignUpActivity : AppCompatActivity() {
@@ -26,12 +27,13 @@ class SignUpActivity : AppCompatActivity() {
         "Bagong Karsada", "Balsahan", "Bancaan", "Bucana Malaki", "Bucana Sasahan",
         "Calubcob", "Capt. C. Nazareno (Poblacion)", "Gomez-Zamora (Poblacion)",
         "Halang", "Humbac", "Ibayo Estacion", "Ibayo Silangan", "Kanluran",
-        "Labac", "Latoria", "Mabolo", "Makina", "Malainen Bago", "Malainen Luma",
+        "Labac", "Latoria", "Mabulo", "Makina", "Malainen Bago", "Malainen Luma",
         "Molino", "Munting Mapino", "Muzon", "Palangue 1 (Central)", "Palangue 2 & 3",
         "Sabang", "San Roque", "Santulan", "Sapa", "Timalan Balsahan", "Timalan Concepcion"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        ThemeManager.initializeTheme(this)
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
