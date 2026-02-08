@@ -181,7 +181,8 @@ class HomeFragment : Fragment() {
             val colorRes = when (notif.level.lowercase()) {
                 "high" -> R.color.error_red
                 "medium" -> R.color.warning_orange
-                else -> R.color.primary_green
+                "low" -> R.color.warning_yellow
+                else -> R.color.primary_green  // Beneficial or unknown
             }
             tvLevel.backgroundTintList = ContextCompat.getColorStateList(requireContext(), colorRes)
             

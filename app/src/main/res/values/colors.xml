@@ -17,6 +17,7 @@
     
     <!-- Status Colors -->
     <color name="success_green">#4CAF50</color>
+    <color name="warning_yellow">#FFF176</color>
     <color name="warning_orange">#FF9800</color>
     <color name="error_red">#F44336</color>
     <color name="info_blue">#2196F3</color>
