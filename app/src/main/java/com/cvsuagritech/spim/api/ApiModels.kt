@@ -46,5 +46,6 @@ data class AppNotification(
     val message: String,
     val level: String, // "High", "Medium", "Low"
     val timestamp: String,
-    @SerializedName("is_read") val isRead: Boolean
+    @SerializedName("is_read") val isRead: Boolean,
+    @SerializedName("from_user") val fromUser: String? = "System"  // Who triggered the alert
 )

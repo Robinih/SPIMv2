@@ -173,7 +173,7 @@ class HomeFragment : Fragment() {
             val tvLevel = row.findViewById<TextView>(R.id.tv_insect_type)
             
             tvMsg.text = notif.message
-            tvDate.text = notif.timestamp
+            tvDate.text = "${notif.timestamp} • From: ${notif.fromUser}"
             tvLevel.text = notif.level
             
             val color = when (notif.level.lowercase()) {
