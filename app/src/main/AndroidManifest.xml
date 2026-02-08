@@ -84,6 +84,15 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <!-- Firebase Cloud Messaging Service -->
+        <service
+            android:name=".utils.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <receiver android:name=".utils.DownloadReceiver" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />

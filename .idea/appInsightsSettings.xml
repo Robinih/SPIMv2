@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.cvsuagritech.spim" />
+                  <option name="mobileSdkAppId" value="1:886073279620:android:f1ec1d4d4f9a637203aed1" />
+                  <option name="projectId" value="spim-cf964" />
+                  <option name="projectNumber" value="886073279620" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

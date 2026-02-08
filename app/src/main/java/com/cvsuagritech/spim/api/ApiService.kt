@@ -55,10 +55,27 @@ interface ApiService {
     suspend fun markAllNotificationsAsRead(
         @Query("user_id") userId: Int
     ): Response<MarkReadResponse>
+
+    // Register FCM device token
+    @POST("api/register_device_token")
+    suspend fun registerDeviceToken(
+        @Body request: RegisterDeviceTokenRequest
+    ): Response<RegisterDeviceTokenResponse>
 }
 
 // Response model for mark read action as per guide
 data class MarkReadResponse(
     val message: String,
     val count: Int
+)
+
+// Request model for FCM token registration
+data class RegisterDeviceTokenRequest(
+    val user_id: Int,
+    val fcm_token: String
+)
+
+// Response model for FCM token registration
+data class RegisterDeviceTokenResponse(
+    val message: String
 )

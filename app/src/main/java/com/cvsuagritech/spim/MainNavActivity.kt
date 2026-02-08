@@ -3,6 +3,7 @@ package com.cvsuagritech.spim
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -35,6 +36,8 @@ import com.cvsuagritech.spim.fragments.pestpages.SlantFacedGrasshopperDetailsFra
 import com.cvsuagritech.spim.utils.LanguageManager
 import com.cvsuagritech.spim.utils.SessionManager
 import com.cvsuagritech.spim.utils.ThemeManager
+import com.cvsuagritech.spim.api.RegisterDeviceTokenRequest
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -44,7 +47,6 @@ class MainNavActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainNavBinding
     private lateinit var sessionManager: SessionManager
     private var currentTutorialStep = 0
-    private var isFirstSync = true
     
     private val tutorialSteps by lazy {
         listOf(
@@ -67,7 +69,6 @@ class MainNavActivity : AppCompatActivity() {
     data class TutorialStep(val tabId: Int, val title: String, val desc: String, val viewId: Int)
 
     override fun attachBaseContext(newBase: Context) {
-        // Critical: Apply the language wrap before the activity initializes
         super.attachBaseContext(LanguageManager.wrap(newBase))
     }
 
@@ -88,18 +89,18 @@ class MainNavActivity : AppCompatActivity() {
             binding.bottomNavigation.selectedItemId = R.id.nav_home
         }
 
-        // Auto-start tutorial for first-time users
         val prefs = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         if (prefs.getBoolean("first_time_global_tutorial", true)) {
             binding.root.postDelayed({ startTutorial() }, 1000)
             prefs.edit().putBoolean("first_time_global_tutorial", false).apply()
         }
 
-        // Start notification polling if logged in
         if (sessionManager.isLoggedIn()) {
             checkAndRequestNotificationPermission()
-            isFirstSync = true
             startNotificationPolling()
+            
+            // Register FCM token with backend
+            registerFcmToken()
         }
     }
 
@@ -239,6 +240,9 @@ class MainNavActivity : AppCompatActivity() {
             val importance = NotificationManager.IMPORTANCE_HIGH
             val channel = NotificationChannel("SPIM_ALERTS", name, importance).apply {
                 description = descriptionText
+                enableLights(true)
+                lightColor = android.graphics.Color.RED
+                enableVibration(true)
             }
             val notificationManager: NotificationManager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -257,35 +261,55 @@ class MainNavActivity : AppCompatActivity() {
                             val notifications = response.body() ?: emptyList()
                             val lastId = sessionManager.getLastNotificationId()
                             
-                            if (isFirstSync) {
-                                notifications.maxByOrNull { it.id }?.let { 
-                                    sessionManager.setLastNotificationId(it.id)
-                                }
-                                isFirstSync = false
-                                Log.d("Notifications", "Initial sync complete.")
-                            } else {
-                                notifications.filter { it.id > lastId && !it.isRead }.forEach { 
-                                    showSystemNotification(it)
-                                    sessionManager.setLastNotificationId(it.id)
+                            Log.d("Notifications", "Fetched ${notifications.size} alerts. lastSeenId=$lastId")
+
+                            // Only show system tray notifications for UNREAD alerts that are NEWER than what we've seen.
+                            // Facebook-style: alerts stay in history, but only pop up in bar once.
+                            val toNotify = notifications.filter { !it.isRead && it.id > lastId }
+                            
+                            if (toNotify.isNotEmpty()) {
+                                Log.d("Notifications", "Pushing ${toNotify.size} to system bar")
+                                toNotify.forEach { showSystemNotification(it) }
+                            }
+
+                            // Update the tracking ID to ensure we don't repeat alerts in the next poll
+                            notifications.maxByOrNull { it.id }?.let { maxNotif ->
+                                if (maxNotif.id > lastId) {
+                                    sessionManager.setLastNotificationId(maxNotif.id)
                                 }
                             }
+                        } else {
+                            val errorBody = response.errorBody()?.string()
+                            Log.e("Notifications", "Server returned error: $errorBody")
                         }
                     } catch (e: Exception) {
-                        Log.e("Notifications", "Polling error: ${e.message}")
+                        Log.e("Notifications", "Polling network/parsing error: ${e.message}")
                     }
                 }
-                delay(30 * 1000) // Poll every 30 seconds
+                delay(30 * 1000) 
             }
         }
     }
 
     private fun showSystemNotification(notification: AppNotification) {
+        val intent = Intent(this, MainNavActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(
+            this, 0, intent, 
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
         val builder = NotificationCompat.Builder(this, "SPIM_ALERTS")
-            .setSmallIcon(R.drawable.logo)
+            .setSmallIcon(R.drawable.ic_notifications) 
             .setContentTitle("${notification.level} Alert")
             .setContentText(notification.message)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setCategory(NotificationCompat.CATEGORY_ALARM)
+            .setContentIntent(pendingIntent)
             .setAutoCancel(true)
+            .setColor(ContextCompat.getColor(this, R.color.primary_green))
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
 
         with(NotificationManagerCompat.from(this)) {
             val isPermissionGranted = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -296,6 +320,8 @@ class MainNavActivity : AppCompatActivity() {
 
             if (isPermissionGranted) {
                 notify(notification.id, builder.build())
+            } else {
+                Log.w("Notifications", "Permission not granted to show notification bar alert")
             }
         }
     }
@@ -303,15 +329,11 @@ class MainNavActivity : AppCompatActivity() {
     private fun checkAndRequestNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             when {
-                ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED -> {
-                    // Already granted
-                }
+                ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED -> {}
                 shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
-                    // Show custom explanation dialog to user
                     showNotificationRationaleDialog()
                 }
                 else -> {
-                    // Direct request
                     requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                 }
             }
@@ -336,11 +358,38 @@ class MainNavActivity : AppCompatActivity() {
     ) { isGranted: Boolean ->
         if (isGranted) {
             Toast.makeText(this, "Notification permission granted!", Toast.LENGTH_SHORT).show()
-        } else {
-            // Only toast if we're on Android 13+ where this matters
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                // If they denied, we don't spam them, just log it.
-                Log.w("Notifications", "User denied notification permission")
+        }
+    }
+
+    private fun registerFcmToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("FCM", "Fetching FCM registration token failed", task.exception)
+                return@addOnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+            Log.d("FCM", "FCM Token: $token")
+
+            // Send token to backend
+            val userId = sessionManager.getUserId()
+            if (userId != -1) {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    try {
+                        val response = RetrofitClient.instance.registerDeviceToken(
+                            RegisterDeviceTokenRequest(userId, token)
+                        )
+                        if (response.isSuccessful) {
+                            Log.d("FCM", "Token registered with server successfully")
+                            sessionManager.clearPendingFcmToken()
+                        } else {
+                            Log.e("FCM", "Failed to register token: ${response.errorBody()?.string()}")
+                        }
+                    } catch (e: Exception) {
+                        Log.e("FCM", "Error registering FCM token: ${e.message}")
+                    }
+                }
             }
         }
     }

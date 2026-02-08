@@ -3,15 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="2dp">
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@color/background_white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12dp">
+        android:padding="16dp">
 
         <!-- Header: Level Badge + Timestamp -->
         <LinearLayout
@@ -19,7 +20,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="12dp">
 
             <TextView
                 android:id="@+id/tv_notif_level"
@@ -27,13 +28,14 @@
                 android:layout_height="wrap_content"
                 android:text="HIGH"
                 android:textStyle="bold"
-                android:textSize="11sp"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
+                android:textSize="10sp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp"
-                android:background="@drawable/badge_background"
-                android:textColor="@android:color/white" />
+                android:background="@drawable/confidence_badge_background"
+                android:textColor="@android:color/white"
+                android:letterSpacing="0.05" />
 
             <View
                 android:layout_width="0dp"
@@ -45,8 +47,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2026-02-08 14:30"
-                android:textSize="11sp"
-                android:textColor="@android:color/darker_gray" />
+                android:textSize="12sp"
+                android:textColor="@color/text_secondary" />
         </LinearLayout>
 
         <!-- Message -->
@@ -55,19 +57,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="CRITICAL: High Pest Activity detected in your area."
-            android:textSize="13sp"
-            android:textColor="@android:color/black"
-            android:layout_marginBottom="6dp"
-            android:lineSpacingMultiplier="1.1" />
+            android:textSize="15sp"
+            android:textColor="@color/text_primary"
+            android:layout_marginBottom="8dp"
+            android:lineSpacingExtra="4dp" />
 
         <!-- Footer: From info -->
         <TextView
             android:id="@+id/tv_notif_from"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="From: Leo Robin Binavente"
-            android:textSize="11sp"
-            android:textColor="@android:color/darker_gray"
+            android:text="From: System"
+            android:textSize="12sp"
+            android:textColor="@color/text_hint"
             android:textStyle="italic" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

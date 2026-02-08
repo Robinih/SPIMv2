@@ -48,4 +48,17 @@ class SessionManager(context: Context) {
     fun logout() {
         prefs.edit().clear().apply()
     }
+
+    // FCM Token Management
+    fun savePendingFcmToken(token: String) {
+        prefs.edit().putString("pending_fcm_token", token).apply()
+    }
+
+    fun getPendingFcmToken(): String? {
+        return prefs.getString("pending_fcm_token", null)
+    }
+
+    fun clearPendingFcmToken() {
+        prefs.edit().remove("pending_fcm_token").apply()
+    }
 }
