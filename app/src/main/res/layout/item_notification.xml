@@ -1,0 +1,73 @@
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp"&gt;
+
+    &lt;LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp"&gt;
+
+        &lt;!-- Header: Level Badge + Timestamp --&gt;
+        &lt;LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp"&gt;
+
+            &lt;TextView
+                android:id="@+id/tv_notif_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="HIGH"
+                android:textStyle="bold"
+                android:textSize="11sp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:background="@drawable/badge_high"
+                android:textColor="@android:color/white" /&gt;
+
+            &lt;View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" /&gt;
+
+            &lt;TextView
+                android:id="@+id/tv_notif_timestamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2026-02-08 14:30"
+                android:textSize="11sp"
+                android:textColor="@android:color/darker_gray" /&gt;
+        &lt;/LinearLayout&gt;
+
+        &lt;!-- Message --&gt;
+        &lt;TextView
+            android:id="@+id/tv_notif_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CRITICAL: High Pest Activity detected in your area."
+            android:textSize="13sp"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="6dp"
+            android:lineSpacingMultiplier="1.1" /&gt;
+
+        &lt;!-- Footer: From info --&gt;
+        &lt;TextView
+            android:id="@+id/tv_notif_from"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="From: Leo Robin Binavente"
+            android:textSize="11sp"
+            android:textColor="@android:color/darker_gray"
+            android:textStyle="italic" /&gt;
+    &lt;/LinearLayout&gt;
+&lt;/androidx.cardview.widget.CardView&gt;

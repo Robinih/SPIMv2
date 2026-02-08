@@ -157,43 +157,52 @@ class HomeFragment : Fragment() {
             return
         }
 
-        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_count_details, null)
-        val tvTitle = dialogView.findViewById<TextView>(R.id.tv_detail_total)
-        val tvSubtitle = dialogView.findViewById<TextView>(R.id.tv_detail_subtitle)
-        val container = dialogView.findViewById<ViewGroup>(R.id.breakdown_container)
-        
-        tvTitle.text = "Recent Notifications"
-        tvSubtitle.text = "Alert History" 
-        
-        // Show newest notifications first
-        notificationList.sortedByDescending { it.id }.forEach { notif ->
-            val row = LayoutInflater.from(requireContext()).inflate(R.layout.item_breakdown_row, container, false)
-            val tvMsg = row.findViewById<TextView>(R.id.tv_insect_name)
-            val tvDate = row.findViewById<TextView>(R.id.tv_insect_count)
-            val tvLevel = row.findViewById<TextView>(R.id.tv_insect_type)
-            
-            tvMsg.text = notif.message
-            tvDate.text = "${notif.timestamp} • From: ${notif.fromUser}"
-            tvLevel.text = notif.level
-            
-            val color = when (notif.level.lowercase()) {
-                "high" -> R.color.error_red
-                "medium" -> R.color.warning_orange
-                else -> R.color.primary_green
+        // Create custom dialog with ScrollView
+        val dialogView = ScrollView(requireContext()).apply {
+            val container = LinearLayout(requireContext()).apply {
+                orientation = LinearLayout.VERTICAL
+                setPadding(16, 16, 16, 16)
+                
+                // Show newest notifications first
+                notificationList.sortedByDescending { it.id }.forEach { notif ->
+                    val notifView = LayoutInflater.from(context).inflate(R.layout.item_notification, this, false)
+                    
+                    val tvLevel = notifView.findViewById<TextView>(R.id.tv_notif_level)
+                    val tvTimestamp = notifView.findViewById<TextView>(R.id.tv_notif_timestamp)
+                    val tvMessage = notifView.findViewById<TextView>(R.id.tv_notif_message)
+                    val tvFrom = notifView.findViewById<TextView>(R.id.tv_notif_from)
+                    
+                    // Set level badge
+                    tvLevel.text = notif.level.uppercase()
+                    val badgeDrawable = when (notif.level.lowercase()) {
+                        "high" -> R.drawable.badge_high
+                        "medium" -> R.drawable.badge_medium
+                        else -> R.drawable.badge_low
+                    }
+                    tvLevel.setBackgroundResource(badgeDrawable)
+                    
+                    // Set timestamp
+                    tvTimestamp.text = notif.timestamp
+                    
+                    // Set message (bold if unread)
+                    tvMessage.text = notif.message
+                    if (!notif.isRead) {
+                        tvMessage.setTypeface(null, android.graphics.Typeface.BOLD)
+                        tvMessage.setTextColor(ContextCompat.getColor(context, android.R.color.black))
+                    } else {
+                        tvMessage.setTypeface(null, android.graphics.Typeface.NORMAL)
+                        tvMessage.alpha = 0.7f
+                    }
+                    
+                    // Set from info
+                    tvFrom.text = "From: ${notif.fromUser}"
+                    
+                    addView(notifView)
+                }
             }
-            tvLevel.setTextColor(ContextCompat.getColor(requireContext(), color))
-            
-            // Unread items are bold
-            if (!notif.isRead) {
-                tvMsg.setTypeface(null, android.graphics.Typeface.BOLD)
-            } else {
-                tvMsg.setTypeface(null, android.graphics.Typeface.NORMAL)
-                tvMsg.alpha = 0.7f
-            }
-            
-            container.addView(row)
+            addView(container)
         }
-
+        
         AlertDialog.Builder(requireContext())
             .setTitle("Notification History")
             .setView(dialogView)
