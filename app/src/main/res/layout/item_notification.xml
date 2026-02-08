@@ -1,27 +1,27 @@
-&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
     app:cardCornerRadius="8dp"
-    app:cardElevation="2dp"&gt;
+    app:cardElevation="2dp">
 
-    &lt;LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12dp"&gt;
+        android:padding="12dp">
 
-        &lt;!-- Header: Level Badge + Timestamp --&gt;
-        &lt;LinearLayout
+        <!-- Header: Level Badge + Timestamp -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginBottom="8dp"&gt;
+            android:layout_marginBottom="8dp">
 
-            &lt;TextView
+            <TextView
                 android:id="@+id/tv_notif_level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -32,25 +32,25 @@
                 android:paddingEnd="8dp"
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp"
-                android:background="@drawable/badge_high"
-                android:textColor="@android:color/white" /&gt;
+                android:background="@drawable/badge_background"
+                android:textColor="@android:color/white" />
 
-            &lt;View
+            <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_weight="1" /&gt;
+                android:layout_weight="1" />
 
-            &lt;TextView
+            <TextView
                 android:id="@+id/tv_notif_timestamp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2026-02-08 14:30"
                 android:textSize="11sp"
-                android:textColor="@android:color/darker_gray" /&gt;
-        &lt;/LinearLayout&gt;
+                android:textColor="@android:color/darker_gray" />
+        </LinearLayout>
 
-        &lt;!-- Message --&gt;
-        &lt;TextView
+        <!-- Message -->
+        <TextView
             android:id="@+id/tv_notif_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -58,16 +58,16 @@
             android:textSize="13sp"
             android:textColor="@android:color/black"
             android:layout_marginBottom="6dp"
-            android:lineSpacingMultiplier="1.1" /&gt;
+            android:lineSpacingMultiplier="1.1" />
 
-        &lt;!-- Footer: From info --&gt;
-        &lt;TextView
+        <!-- Footer: From info -->
+        <TextView
             android:id="@+id/tv_notif_from"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="From: Leo Robin Binavente"
             android:textSize="11sp"
             android:textColor="@android:color/darker_gray"
-            android:textStyle="italic" /&gt;
-    &lt;/LinearLayout&gt;
-&lt;/androidx.cardview.widget.CardView&gt;
+            android:textStyle="italic" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

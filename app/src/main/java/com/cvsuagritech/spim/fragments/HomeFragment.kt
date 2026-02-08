@@ -18,6 +18,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -158,56 +160,54 @@ class HomeFragment : Fragment() {
         }
 
         // Create custom dialog with ScrollView
-        val dialogView = ScrollView(requireContext()).apply {
-            val container = LinearLayout(requireContext()).apply {
-                orientation = LinearLayout.VERTICAL
-                setPadding(16, 16, 16, 16)
-                
-                // Show newest notifications first
-                notificationList.sortedByDescending { it.id }.forEach { notif ->
-                    val notifView = LayoutInflater.from(context).inflate(R.layout.item_notification, this, false)
-                    
-                    val tvLevel = notifView.findViewById<TextView>(R.id.tv_notif_level)
-                    val tvTimestamp = notifView.findViewById<TextView>(R.id.tv_notif_timestamp)
-                    val tvMessage = notifView.findViewById<TextView>(R.id.tv_notif_message)
-                    val tvFrom = notifView.findViewById<TextView>(R.id.tv_notif_from)
-                    
-                    // Set level badge
-                    tvLevel.text = notif.level.uppercase()
-                    val badgeDrawable = when (notif.level.lowercase()) {
-                        "high" -> R.drawable.badge_high
-                        "medium" -> R.drawable.badge_medium
-                        else -> R.drawable.badge_low
-                    }
-                    tvLevel.setBackgroundResource(badgeDrawable)
-                    
-                    // Set timestamp
-                    tvTimestamp.text = notif.timestamp
-                    
-                    // Set message (bold if unread)
-                    tvMessage.text = notif.message
-                    if (!notif.isRead) {
-                        tvMessage.setTypeface(null, android.graphics.Typeface.BOLD)
-                        tvMessage.setTextColor(ContextCompat.getColor(context, android.R.color.black))
-                    } else {
-                        tvMessage.setTypeface(null, android.graphics.Typeface.NORMAL)
-                        tvMessage.alpha = 0.7f
-                    }
-                    
-                    // Set from info
-                    tvFrom.text = "From: ${notif.fromUser}"
-                    
-                    addView(notifView)
-                }
+        val scrollContainer = ScrollView(requireContext())
+        val layoutContainer = LinearLayout(requireContext()).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(32, 32, 32, 32)
+        }
+        scrollContainer.addView(layoutContainer)
+        
+        // Show newest notifications first
+        notificationList.sortedByDescending { it.id }.forEach { notif ->
+            val notifView = LayoutInflater.from(requireContext()).inflate(R.layout.item_notification, layoutContainer, false)
+            
+            val tvLevel = notifView.findViewById<TextView>(R.id.tv_notif_level)
+            val tvTimestamp = notifView.findViewById<TextView>(R.id.tv_notif_timestamp)
+            val tvMessage = notifView.findViewById<TextView>(R.id.tv_notif_message)
+            val tvFrom = notifView.findViewById<TextView>(R.id.tv_notif_from)
+            
+            // Set level badge
+            tvLevel.text = notif.level.uppercase()
+            val colorRes = when (notif.level.lowercase()) {
+                "high" -> R.color.error_red
+                "medium" -> R.color.warning_orange
+                else -> R.color.primary_green
             }
-            addView(container)
+            tvLevel.backgroundTintList = ContextCompat.getColorStateList(requireContext(), colorRes)
+            
+            // Set timestamp
+            tvTimestamp.text = notif.timestamp
+            
+            // Set message (bold if unread)
+            tvMessage.text = notif.message
+            if (!notif.isRead) {
+                tvMessage.setTypeface(null, android.graphics.Typeface.BOLD)
+                tvMessage.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.black))
+            } else {
+                tvMessage.setTypeface(null, android.graphics.Typeface.NORMAL)
+                tvMessage.alpha = 0.7f
+            }
+            
+            // Set from info - Show who triggered the alert
+            tvFrom.text = "From: ${notif.fromUser ?: "System"}"
+            
+            layoutContainer.addView(notifView)
         }
         
         AlertDialog.Builder(requireContext())
             .setTitle("Notification History")
-            .setView(dialogView)
+            .setView(scrollContainer)
             .setPositiveButton("Close") { _, _ ->
-                // Refresh locally so the next bell click knows they are now "read"
                 loadNotifications()
             }
             .setNeutralButton("Clear All") { _, _ ->
