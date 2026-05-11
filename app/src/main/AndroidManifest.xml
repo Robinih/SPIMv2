@@ -57,17 +57,44 @@
             android:name=".MainNavActivity"
             android:exported="false" />
             
-        <!-- Count Results Activity -->
+        <!-- Scanner Activity (CameraX + YOLOv8) -->
         <activity
-            android:name=".CountResultsActivity"
+            android:name=".ScannerActivity"
             android:exported="false"
-            android:label="Count Insects" />
+            android:label="Scan Insects" />
+
+        <!-- Interactive Result Activity (Google Lens-style) -->
+        <activity
+            android:name=".InteractiveResultActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SPIM"
+            android:label="Detection Results" />
+
+        <!-- Counting Result Activity -->
+        <activity
+            android:name=".CountResultActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SPIM"
+            android:label="Counting Results" />
+
+        <!-- Full-Screen Image Viewer -->
+        <activity
+            android:name=".FullScreenImageActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SPIM"
+            android:label="Image Viewer" />
 
         <!-- Recommendation Activity -->
         <activity
             android:name=".RecommendationActivity"
             android:windowSoftInputMode="adjustResize"
             android:exported="false" />
+
+        <!-- About Activity -->
+        <activity
+            android:name=".AboutActivity"
+            android:exported="false"
+            android:label="About SPIM" />
 
         <!-- Legacy Main Activity (for backward compatibility) -->
         <activity

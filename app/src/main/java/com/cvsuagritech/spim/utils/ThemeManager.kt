@@ -14,7 +14,7 @@ object ThemeManager {
     fun setThemeMode(context: Context, themeMode: String) {
         val sharedPref = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         sharedPref.edit().putString(THEME_KEY, themeMode).commit()
-        applyThemeMode(themeMode)
+        applyTheme(themeMode)
     }
     
     fun getCurrentThemeMode(context: Context): String {
@@ -31,7 +31,7 @@ object ThemeManager {
         }
     }
     
-    private fun applyThemeMode(themeMode: String) {
+    fun applyTheme(themeMode: String) {
         when (themeMode) {
             THEME_LIGHT -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             THEME_DARK -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -41,6 +41,6 @@ object ThemeManager {
     
     fun initializeTheme(context: Context) {
         val savedTheme = getCurrentThemeMode(context)
-        applyThemeMode(savedTheme)
+        applyTheme(savedTheme)
     }
 }

@@ -227,6 +227,14 @@ class PestDatabaseHelper(context: Context) : SQLiteOpenHelper(
         }
     }
 
+    fun deletePestRecord(id: Long): Int {
+        return writableDatabase.delete(TABLE_PEST_RECORDS, "$COLUMN_ID = ?", arrayOf(id.toString()))
+    }
+
+    fun deleteCountRecord(id: Long): Int {
+        return writableDatabase.delete(TABLE_COUNT_RECORDS, "$COLUMN_ID = ?", arrayOf(id.toString()))
+    }
+
     fun deleteAllPestRecords(): Int {
         val db = writableDatabase
         val count = db.delete(TABLE_PEST_RECORDS, null, null)

@@ -35,7 +35,6 @@ android {
         jvmTarget = "11"
     }
     buildFeatures{
-        mlModelBinding = true
         viewBinding = true
         buildConfig = true
     }
@@ -55,6 +54,16 @@ dependencies {
     implementation("org.tensorflow:tensorflow-lite-support:$tfliteVersion")
     implementation("org.tensorflow:tensorflow-lite-task-vision:$tfliteVersion")
     implementation("org.tensorflow:tensorflow-lite-metadata:$tfliteVersion")
+
+    // CameraX
+    val cameraxVersion = "1.3.4"
+    implementation("androidx.camera:camera-core:$cameraxVersion")
+    implementation("androidx.camera:camera-camera2:$cameraxVersion")
+    implementation("androidx.camera:camera-lifecycle:$cameraxVersion")
+    implementation("androidx.camera:camera-view:$cameraxVersion")
+
+    // Image Zooming
+    implementation("com.github.chrisbanes:PhotoView:2.3.0")
 
     // Charts
     implementation(libs.mp.android.chart)

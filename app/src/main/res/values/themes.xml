@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/apk/res/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.SPIM" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->

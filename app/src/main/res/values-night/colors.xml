@@ -37,7 +37,38 @@
     <color name="gradient_end">#66BB6A</color>
     <color name="gradient_secondary_start">#A1887F</color>
     <color name="gradient_secondary_end">#BCAAA4</color>
-    
+
+    <!-- ===== NEW: UI Upgrade Colors (Dark) ===== -->
+
+    <!-- Card Tint Backgrounds (Dark) -->
+    <color name="card_green_tint">#1B3A1C</color>
+    <color name="card_orange_tint">#3A2A1B</color>
+    <color name="card_blue_tint">#1B2A3A</color>
+    <color name="card_red_tint">#3A1B1B</color>
+
+    <!-- Count Card Gradient (slightly muted for dark) -->
+    <color name="card_count_start">#E64A19</color>
+    <color name="card_count_end">#D84315</color>
+
+    <!-- Statistics Card Backgrounds (Dark) -->
+    <color name="stat_card_pests_bg">#3A1B1B</color>
+    <color name="stat_card_beneficial_bg">#1B3A1C</color>
+    <color name="stat_card_common_bg">#1B2A3A</color>
+
+    <!-- Icon Circle Backgrounds (Dark — subtler) -->
+    <color name="icon_bg_green">#2E4A2F</color>
+    <color name="icon_bg_red">#4A2E2E</color>
+    <color name="icon_bg_blue">#2E3A4A</color>
+    <color name="icon_bg_orange">#4A3A2E</color>
+
+    <!-- Bottom Sheet Section Background (Dark) -->
+    <color name="section_card_bg">#2C2C2C</color>
+
+    <!-- Stat Icon Circle Colors (same in dark) -->
+    <color name="stat_icon_pests">#EF5350</color>
+    <color name="stat_icon_beneficial">#66BB6A</color>
+    <color name="stat_icon_common">#42A5F5</color>
+
     <!-- Legacy colors for compatibility -->
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#4CAF50</color>

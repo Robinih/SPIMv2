@@ -18,9 +18,20 @@ class WelcomeActivity : AppCompatActivity() {
     private lateinit var sessionManager: SessionManager
     private lateinit var updateManager: UpdateManager
 
+    private var wrappedContext: Context? = null
+
     override fun attachBaseContext(newBase: Context) {
-        // Critical: Apply language wrapping to the activity context
-        super.attachBaseContext(LanguageManager.wrap(newBase))
+        wrappedContext = LanguageManager.wrap(newBase)
+        super.attachBaseContext(wrappedContext!!)
+    }
+
+    override fun applyOverrideConfiguration(overrideConfiguration: android.content.res.Configuration?) {
+        if (overrideConfiguration != null) {
+            val uiMode = overrideConfiguration.uiMode
+            overrideConfiguration.setTo(baseContext.resources.configuration)
+            overrideConfiguration.uiMode = uiMode
+        }
+        super.applyOverrideConfiguration(overrideConfiguration)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

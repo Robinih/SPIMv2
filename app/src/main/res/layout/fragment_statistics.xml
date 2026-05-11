@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="?android:attr/colorBackground">
 
-    <!-- Header Section -->
+    <!-- Header Section with accent bar -->
     <LinearLayout
         android:id="@+id/header_layout"
         android:layout_width="match_parent"
@@ -16,14 +16,27 @@
         android:paddingTop="32dp"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tv_stats_title"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/stats_title"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:textColor="@color/primary_green" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="28dp"
+                android:background="@color/primary_green" />
+
+            <TextView
+                android:id="@+id/tv_stats_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/stats_title"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_green"
+                android:layout_marginStart="12dp" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_stats_subtitle"
@@ -32,6 +45,7 @@
             android:text="@string/stats_subtitle"
             android:textSize="14sp"
             android:textColor="?android:attr/textColorSecondary"
+            android:layout_marginStart="16dp"
             android:layout_marginBottom="16dp" />
     </LinearLayout>
 
@@ -53,99 +67,96 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="3"
+                android:weightSum="2"
                 app:layout_constraintTop_toTopOf="parent">
 
+                <!-- Pests Card (Red tint) -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
-                    app:cardCornerRadius="12dp"
+                    app:cardCornerRadius="16dp"
                     app:cardElevation="2dp"
-                    app:cardBackgroundColor="?attr/colorSurface">
+                    app:strokeWidth="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/bg_stat_card_pests"
                         android:gravity="center"
                         android:orientation="vertical"
-                        android:padding="12dp">
+                        android:padding="14dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Pests"
-                            android:textColor="?android:attr/textColorSecondary"
-                            android:textSize="12sp" />
+                        <!-- Colored icon circle -->
+                        <FrameLayout
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_marginBottom="8dp">
+                            <View
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:background="@drawable/bg_icon_circle_red" />
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_pest"
+                                app:tint="@color/stat_icon_pests" />
+                        </FrameLayout>
 
                         <TextView
                             android:id="@+id/tv_total_pests"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textColor="@color/error_red"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                            android:textColor="@color/stat_icon_pests"
+                            style="@style/StatNumber" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Pests"
+                            style="@style/StatLabel" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
+
+
+                <!-- Most Common Card (Blue tint) -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
-                    app:cardCornerRadius="12dp"
+                    app:cardCornerRadius="16dp"
                     app:cardElevation="2dp"
-                    app:cardBackgroundColor="?attr/colorSurface">
+                    app:strokeWidth="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/bg_stat_card_common"
                         android:gravity="center"
                         android:orientation="vertical"
-                        android:padding="12dp">
+                        android:padding="14dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Beneficial"
-                            android:textColor="?android:attr/textColorSecondary"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:id="@+id/tv_total_beneficial"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textColor="@color/success_green"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:layout_weight="1"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp"
-                    app:cardBackgroundColor="?attr/colorSurface">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="12dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/stats_common"
-                            android:textColor="?android:attr/textColorSecondary"
-                            android:textSize="12sp" />
+                        <FrameLayout
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_marginBottom="8dp">
+                            <View
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:background="@drawable/bg_icon_circle_blue" />
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_analyze"
+                                app:tint="@color/stat_icon_common" />
+                        </FrameLayout>
 
                         <TextView
                             android:id="@+id/tv_most_common_pest"
@@ -154,9 +165,16 @@
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:text="N/A"
-                            android:textColor="?android:attr/textColorPrimary"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:textColor="@color/stat_icon_common"
+                            style="@style/StatNumber"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/stats_common"
+                            style="@style/StatLabel" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
@@ -168,9 +186,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="320dp"
                 android:layout_marginTop="16dp"
-                app:cardCornerRadius="12dp"
+                app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
                 app:cardBackgroundColor="?attr/colorSurface"
+                app:strokeWidth="0dp"
                 app:layout_constraintTop_toBottomOf="@id/layout_summary_cards">
 
                 <LinearLayout
@@ -179,13 +198,28 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <!-- Section title with accent -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/stats_detections_over_time"
-                        android:textColor="?android:attr/textColorPrimary"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="4dp">
+
+                        <View
+                            android:layout_width="3dp"
+                            android:layout_height="18dp"
+                            android:background="@color/primary_green"
+                            android:layout_marginEnd="8dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/stats_detections_over_time"
+                            android:textColor="?android:attr/textColorPrimary"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tab_layout_timeframe"
@@ -230,9 +264,10 @@
                 android:layout_height="280dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                app:cardCornerRadius="12dp"
+                app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
                 app:cardBackgroundColor="?attr/colorSurface"
+                app:strokeWidth="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/card_trends">
 
@@ -242,14 +277,28 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <!-- Section title with accent -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp"
-                        android:text="@string/stats_pest_composition"
-                        android:textColor="?android:attr/textColorPrimary"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="12dp">
+
+                        <View
+                            android:layout_width="3dp"
+                            android:layout_height="18dp"
+                            android:background="@color/accent_orange"
+                            android:layout_marginEnd="8dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/stats_pest_composition"
+                            android:textColor="?android:attr/textColorPrimary"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <com.github.mikephil.charting.charts.HorizontalBarChart
                         android:id="@+id/horizontal_bar_chart"

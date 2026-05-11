@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.cvsuagritech.spim.AboutActivity
 import com.cvsuagritech.spim.MainNavActivity
 import com.cvsuagritech.spim.R
 import com.cvsuagritech.spim.WelcomeActivity
@@ -76,22 +77,33 @@ class SettingsFragment : Fragment() {
         // Set app version
         try {
             val packageInfo = requireContext().packageManager.getPackageInfo(requireContext().packageName, 0)
-            binding.tvAppVersion.text = packageInfo.versionName
+            binding.tvAppVersion.text = "v${packageInfo.versionName}"
         } catch (e: Exception) {
-            binding.tvAppVersion.text = "1.0"
+            binding.tvAppVersion.text = "v1.0"
         }
 
         // Set database status
         binding.tvDatabaseStatus.text = getString(R.string.settings_database_ready)
         binding.tvDatabaseStatus.setTextColor(requireContext().getColor(R.color.success_green))
 
-        // Set current language
+        // Set current language display
         currentLanguage = LanguageManager.getCurrentLanguage(requireContext())
-        binding.btnLanguage.text = LanguageManager.getLanguageDisplayName(currentLanguage)
+        binding.tvLanguageValue.text = LanguageManager.getLanguageDisplayName(currentLanguage)
         
-        // Set current theme
+        // Set current theme display
         currentTheme = ThemeManager.getCurrentThemeMode(requireContext())
-        binding.btnTheme.text = ThemeManager.getThemeDisplayName(currentTheme)
+        binding.tvThemeValue.text = ThemeManager.getThemeDisplayName(currentTheme)
+
+        // Show Login/Register for guests, Logout for logged-in users
+        if (sessionManager.isLoggedIn()) {
+            binding.itemLoginRegister.visibility = View.GONE
+            binding.dividerLogin.visibility = View.GONE
+            binding.itemLogout.visibility = View.VISIBLE
+        } else {
+            binding.itemLoginRegister.visibility = View.VISIBLE
+            binding.dividerLogin.visibility = View.GONE
+            binding.itemLogout.visibility = View.GONE
+        }
     }
 
     private fun setupClickListeners() {
@@ -110,16 +122,27 @@ class SettingsFragment : Fragment() {
             }
         }
 
-        binding.btnClearAllHistory.setOnClickListener {
+        binding.itemClearAllHistory.setOnClickListener {
             showClearAllHistoryDialog()
         }
 
-        binding.btnExportData.setOnClickListener {
+        binding.itemExportData.setOnClickListener {
             exportDataToCSV()
         }
 
-        binding.btnLogout.setOnClickListener {
+        binding.itemLogout.setOnClickListener {
             showLogoutDialog()
+        }
+
+        binding.itemLoginRegister.setOnClickListener {
+            val intent = Intent(requireContext(), WelcomeActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        }
+
+        binding.itemAbout.setOnClickListener {
+            val intent = Intent(requireContext(), AboutActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -264,6 +287,7 @@ class SettingsFragment : Fragment() {
                                     }
                                 }
                             }
+                            is HistoryItem.DateHeader -> { /* Ignore headers in export */ }
                         }
                     }
                 }

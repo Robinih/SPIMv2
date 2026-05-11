@@ -19,14 +19,14 @@
             android:layout_height="wrap_content"
             android:padding="24dp">
 
-            <!-- Header Section -->
-            <TextView
+            <!-- Header Section with Logo -->
+            <ImageView
                 android:id="@+id/logo_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_marginTop="48dp"
-                android:text="🛡️🌾"
-                android:textSize="64sp"
+                android:src="@drawable/logo"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -35,7 +35,7 @@
                 android:id="@+id/tv_welcome_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/login_welcome_back"
                 android:textColor="@color/primary_green"
                 android:textSize="28sp"
@@ -51,7 +51,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/login_signin_subtitle"
                 android:textColor="@color/text_secondary"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_welcome_back" />
@@ -62,9 +62,13 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="40dp"
                 android:hint="@string/login_username_hint"
                 app:layout_constraintTop_toBottomOf="@id/tv_subtitle"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusTopStart="12dp"
                 app:startIconDrawable="@android:drawable/ic_menu_myplaces"
                 app:startIconTint="@color/primary_green">
 
@@ -86,6 +90,10 @@
                 android:hint="@string/login_password_hint"
                 app:endIconMode="password_toggle"
                 app:layout_constraintTop_toBottomOf="@id/til_username"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusTopStart="12dp"
                 app:startIconDrawable="@android:drawable/ic_lock_idle_lock"
                 app:startIconTint="@color/primary_green">
 
@@ -114,11 +122,11 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_login"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="56dp"
                 android:layout_marginTop="32dp"
                 android:text="@string/btn_login"
                 android:textAllCaps="false"
-                android:textSize="18sp"
+                android:textSize="17sp"
                 android:textStyle="bold"
                 app:backgroundTint="@color/primary_green"
                 app:cornerRadius="16dp"
@@ -133,7 +141,7 @@
                 android:layout_marginBottom="250dp"
                 android:text="@string/login_no_account"
                 android:textColor="@color/text_secondary"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

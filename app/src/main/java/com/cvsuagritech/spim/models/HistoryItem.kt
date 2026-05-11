@@ -8,6 +8,14 @@ sealed class HistoryItem {
     abstract val timestamp: Long
     abstract val isSynced: Boolean
 
+    /** Section header shown between date groups in the history list */
+    data class DateHeader(
+        val label: String,
+        override val id: Long = -1,
+        override val timestamp: Long = 0,
+        override val isSynced: Boolean = true
+    ) : HistoryItem()
+
     data class IdentificationItem(
         override val id: Long,
         val insectName: String,
@@ -36,31 +44,67 @@ sealed class HistoryItem {
 
         enum class Severity { LOW, MEDIUM, HIGH }
 
-        // Helper to parse breakdown string into a map of counts
         fun getBreakdownMap(): Map<String, Int> {
             val raw = breakdown ?: return emptyMap()
-            val gson = Gson()
             
+            // Try handling legacy non-JSON formats like "5 Rice Bug, 3 Leafhopper" or "Rice Bug:5"
+            if (!raw.trim().startsWith("{")) {
+                val map = mutableMapOf<String, Int>()
+                try {
+                    val parts = raw.split(",")
+                    for (p in parts) {
+                        val piece = p.trim()
+                        if (piece.contains(":")) {
+                            // "Rice Bug:5"
+                            val split = piece.split(":")
+                            map[split[0].trim()] = split[1].trim().toInt()
+                        } else {
+                            // "5 Rice Bug"
+                            val firstSpace = piece.indexOf(" ")
+                            if (firstSpace != -1) {
+                                val countStr = piece.substring(0, firstSpace).trim()
+                                val nameStr = piece.substring(firstSpace + 1).trim()
+                                map[nameStr] = countStr.toIntOrNull() ?: 1
+                            } else {
+                                map[piece] = 1
+                            }
+                        }
+                    }
+                    if (map.isNotEmpty()) return map
+                } catch (e: Exception) {
+                    // Fallthrough to JSON parsing if it fails
+                }
+            }
+
+            val gson = Gson()
             return try {
                 // Try parsing new format: {"insect": {"count": X, "confidence": Y}}
                 val type = object : TypeToken<Map<String, Map<String, Any>>>() {}.type
                 val complexMap: Map<String, Map<String, Any>> = gson.fromJson(raw, type)
-                complexMap.mapValues { (_, value) -> (value["count"] as? Double)?.toInt() ?: 0 }
+                
+                // We must handle cases where someone legitimately saves {"Rice Bug": 5} and Gson mistakenly passes it as Map<String, Any> 
+                // but value['count'] will be null cause value is just a Double 5.0
+                val result = mutableMapOf<String, Int>()
+                var allParsedSuccessfully = true
+                
+                for ((key, value) in complexMap) {
+                    if (value is Map<*, *>) {
+                        result[key] = (value["count"] as? Double)?.toInt() ?: 0
+                    } else if (value is Double) {
+                        result[key] = value.toInt()
+                    } else {
+                        allParsedSuccessfully = false
+                    }
+                }
+                
+                if (allParsedSuccessfully && result.isNotEmpty()) result else throw Exception("Format mismatch")
             } catch (e: Exception) {
                 try {
                     // Try parsing intermediate format: {"insect": count}
                     val type = object : TypeToken<Map<String, Int>>() {}.type
                     gson.fromJson(raw, type)
                 } catch (e2: Exception) {
-                    // Legacy parsing: "Name:Count,Name:Count"
-                    try {
-                        raw.split(",").associate {
-                            val parts = it.split(":")
-                            parts[0] to parts[1].toInt()
-                        }
-                    } catch (e3: Exception) {
-                        emptyMap()
-                    }
+                    emptyMap()
                 }
             }
         }

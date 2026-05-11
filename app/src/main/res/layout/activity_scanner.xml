@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black">
+
+    <!-- CameraX Preview (full-screen live feed) -->
+    <androidx.camera.view.PreviewView
+        android:id="@+id/preview_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Result image overlay (hidden until inference completes) -->
+    <ImageView
+        android:id="@+id/iv_result"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        android:contentDescription="Detection result" />
+
+    <!-- Loading overlay -->
+    <FrameLayout
+        android:id="@+id/loading_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ProgressBar
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:indeterminateTint="@color/primary_green" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Analyzing image..."
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- Top bar with back button -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="start|center_vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingTop="40dp"
+        android:paddingBottom="8dp">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/circle_button_bg"
+            android:src="@drawable/ic_back"
+            android:scaleType="centerInside"
+            android:contentDescription="Back"
+            app:tint="@android:color/white" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Scan Insects"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginEnd="48dp" />
+    </LinearLayout>
+
+    <!-- Lighting Tip Hint -->
+    <TextView
+        android:id="@+id/tv_lighting_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="148dp"
+        android:background="@drawable/confidence_badge_bg"
+        android:backgroundTint="#CC000000"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
+        android:text="Ensure insect is well-lit and in focus for best results"
+        android:textColor="#CCFFFFFF"
+        android:textSize="12sp" />
+
+    <!-- Bottom controls -->
+    <LinearLayout
+        android:id="@+id/controls_camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="48dp"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp">
+
+        <!-- Gallery button -->
+        <ImageButton
+            android:id="@+id/btn_gallery"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/circle_button_bg"
+            android:src="@drawable/ic_gallery"
+            android:scaleType="centerInside"
+            android:contentDescription="Pick from gallery"
+            app:tint="@android:color/white" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <!-- Capture button (large circle) -->
+        <ImageButton
+            android:id="@+id/btn_capture"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/capture_button_bg"
+            android:src="@drawable/ic_camera"
+            android:scaleType="centerInside"
+            android:contentDescription="Capture photo"
+            app:tint="@android:color/white" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <!-- Placeholder for symmetry -->
+        <View
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <!-- Retake controls (shown after results) -->
+    <LinearLayout
+        android:id="@+id/controls_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="48dp"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:visibility="gone">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_retake"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Retake"
+            android:textColor="@android:color/white"
+            app:strokeColor="@android:color/white"
+            app:icon="@drawable/ic_camera"
+            app:iconTint="@android:color/white" />
+    </LinearLayout>
+
+</FrameLayout>

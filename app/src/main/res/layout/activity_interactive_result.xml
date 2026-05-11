@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    tools:context=".InteractiveResultActivity">
+
+    <!-- Captured Image with pinch-to-zoom -->
+    <com.github.chrisbanes.photoview.PhotoView
+        android:id="@+id/iv_captured_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="Captured image with pinch to zoom" />
+
+    <!-- Synchronized Detection Overlay -->
+    <com.cvsuagritech.spim.views.ResultsOverlayView
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Top Bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="12dp"
+        android:paddingTop="40dp"
+        android:background="@android:color/transparent">
+
+        <!-- Back Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_back"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:icon="@drawable/ic_back"
+            app:iconTint="@color/white"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MaterialComponents.Chip"
+            app:backgroundTint="#66000000" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- Detection Count Badge -->
+        <TextView
+            android:id="@+id/tv_detection_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/confidence_badge_bg"
+            android:backgroundTint="#CC000000"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="3 pests detected" />
+
+    </LinearLayout>
+
+    <!-- Removed legacy google lens hints and navigation buttons since pinch-to-zoom is native now -->
+
+    <!-- Save All FAB -->
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab_save_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="96dp"
+        android:text="Save All"
+        app:icon="@drawable/ic_export"
+        app:iconTint="@color/white"
+        app:backgroundTint="#CC4CAF50"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:elevation="12dp"
+        android:stateListAnimator="@null"
+        android:visibility="gone" />
+
+    <!-- Loading Overlay -->
+    <FrameLayout
+        android:id="@+id/loading_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#AA000000"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ProgressBar
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/primary_green_light" />
+    </FrameLayout>
+
+</FrameLayout>

@@ -31,8 +31,6 @@ class StatisticsFragment : Fragment() {
     private lateinit var databaseHelper: PestDatabaseHelper
     private var allHistoryItems: List<HistoryItem> = emptyList()
 
-    private val beneficialInsects = listOf("pygmygrasshopper", "pygmy grasshopper")
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -68,29 +66,25 @@ class StatisticsFragment : Fragment() {
             
             val pestCounts = mutableMapOf<String, Int>()
             var totalPests = 0
-            var totalBeneficial = 0
             
             allHistoryItems.forEach { item ->
                 when (item) {
                     is HistoryItem.IdentificationItem -> {
-                        val name = item.insectName.lowercase()
-                        if (isBeneficial(name)) {
-                            totalBeneficial += 1
-                        } else {
-                            totalPests += 1
-                        }
+                        totalPests += 1
                         pestCounts[item.insectName] = pestCounts.getOrDefault(item.insectName, 0) + 1
                     }
                     is HistoryItem.CountItem -> {
-                        item.getBreakdownMap().forEach { (name, count) ->
-                            if (isBeneficial(name.lowercase())) {
-                                totalBeneficial += count
-                            } else {
+                        val breakdownMap = item.getBreakdownMap()
+                        if (breakdownMap.isEmpty()) {
+                            totalPests += item.totalCount
+                        } else {
+                            breakdownMap.forEach { (name, count) ->
                                 totalPests += count
+                                pestCounts[name] = pestCounts.getOrDefault(name, 0) + count
                             }
-                            pestCounts[name] = pestCounts.getOrDefault(name, 0) + count
                         }
                     }
+                    is HistoryItem.DateHeader -> { /* Ignore headers in statistics */ }
                 }
             }
             
@@ -98,7 +92,6 @@ class StatisticsFragment : Fragment() {
 
             withContext(Dispatchers.Main) {
                 binding.tvTotalPests.text = totalPests.toString()
-                binding.tvTotalBeneficial.text = totalBeneficial.toString()
                 binding.tvMostCommonPest.text = mostCommon
                 
                 setupHorizontalBarChart(pestCounts)
@@ -107,9 +100,7 @@ class StatisticsFragment : Fragment() {
         }
     }
 
-    private fun isBeneficial(name: String): Boolean {
-        return beneficialInsects.any { name.contains(it) }
-    }
+    // Removed isBeneficial check
 
     private fun setupHorizontalBarChart(data: Map<String, Int>) {
         val entries = mutableListOf<BarEntry>()
@@ -117,18 +108,21 @@ class StatisticsFragment : Fragment() {
         val colors = mutableListOf<Int>()
         
         val textColor = getThemeColor(android.R.attr.textColorPrimary)
-        val primaryGreen = ContextCompat.getColor(requireContext(), R.color.primary_green)
-        val errorRed = ContextCompat.getColor(requireContext(), R.color.error_red)
+        
+        // Define a modern, varied color palette for the different classes
+        val colorPalette = listOf(
+            Color.parseColor("#4CAF50"), // Green
+            Color.parseColor("#FF9800"), // Orange
+            Color.parseColor("#2196F3"), // Blue
+            Color.parseColor("#E91E63"), // Pink
+            Color.parseColor("#9C27B0")  // Purple
+        )
 
         // Show top 5 pests
         data.entries.sortedByDescending { it.value }.take(5).forEachIndexed { index, entry ->
             entries.add(BarEntry(index.toFloat(), entry.value.toFloat()))
             labels.add(entry.key)
-            if (isBeneficial(entry.key.lowercase())) {
-                colors.add(primaryGreen)
-            } else {
-                colors.add(errorRed)
-            }
+            colors.add(colorPalette[index % colorPalette.size])
         }
 
         val dataSet = BarDataSet(entries, getString(R.string.stats_pest_composition))
@@ -223,14 +217,11 @@ class StatisticsFragment : Fragment() {
     private fun calculatePestSum(start: Long, end: Long): Int {
         return allHistoryItems.filter { it.timestamp in start until end }.sumOf {
             if (it is HistoryItem.IdentificationItem) {
-                if (isBeneficial(it.insectName.lowercase())) 0 else 1
+                1
             } else {
                 val countItem = it as HistoryItem.CountItem
-                var pestSum = 0
-                countItem.getBreakdownMap().forEach { (name, count) ->
-                    if (!isBeneficial(name.lowercase())) pestSum += count
-                }
-                pestSum
+                val breakdownMap = countItem.getBreakdownMap()
+                if (breakdownMap.isEmpty()) countItem.totalCount else breakdownMap.values.sum()
             }
         }
     }

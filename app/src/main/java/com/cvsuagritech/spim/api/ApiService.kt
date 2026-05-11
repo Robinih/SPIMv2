@@ -47,7 +47,8 @@ interface ApiService {
     // Updated based on the latest guide: user_id is a REQUIRED query parameter
     @GET("api/notifications")
     suspend fun getNotifications(
-        @Query("user_id") userId: Int
+        @Query("user_id") userId: Int,
+        @Query("include_read") includeRead: Boolean = true
     ): Response<List<AppNotification>>
 
     // Updated: Mark all as read using user_id query parameter

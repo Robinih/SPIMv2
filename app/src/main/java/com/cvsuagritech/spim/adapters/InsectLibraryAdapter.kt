@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cvsuagritech.spim.R
 import com.cvsuagritech.spim.databinding.ItemInsectCardBinding
 
-data class Insect(val name: String, val imageResId: Int, val isRecommendation: Boolean = false)
+data class Insect(val name: String, val imageResId: Int, val isRecommendation: Boolean = false, val pestLabel: String = "")
 
 class InsectLibraryAdapter(
     private val insects: List<Insect>,

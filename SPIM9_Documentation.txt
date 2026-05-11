@@ -1,0 +1,783 @@
+================================================================================
+          SPIM9 - Smart Pest Identification and Monitoring (Android App)
+                        FULL PROJECT DOCUMENTATION
+================================================================================
+
+Package Name: com.cvsuagritech.spim
+Language: Kotlin
+Architecture: Single-Activity Navigation (MainNavActivity) with Fragments
+Backend API: https://Eyow189.pythonanywhere.com/
+ML Models: TensorFlow Lite (PestClassification.tflite, PestDetection.tflite)
+Database: SQLite (via PestDatabaseHelper)
+Notifications: Firebase Cloud Messaging (FCM) + REST Polling
+Auto-Update: GitHub Releases API
+
+
+================================================================================
+                            PAGES / SCREENS OVERVIEW
+================================================================================
+
+The app has the following user-facing screens (pages):
+
+1. Splash Screen
+2. Welcome Screen
+3. Login Screen
+4. Sign Up Screen
+5. Home Screen (Fragment inside MainNavActivity)
+6. History Screen (Fragment inside MainNavActivity)
+7. Statistics Screen (Fragment inside MainNavActivity)
+8. Settings Screen (Fragment inside MainNavActivity)
+9. Confirmation Screen (Fragment inside MainNavActivity)
+10. Count Results Screen (Standalone Activity)
+11. Recommendation Screen (Standalone Activity)
+12. Pest Detail Pages (Multiple Fragment sub-pages inside MainNavActivity)
+
+
+================================================================================
+                      DETAILED PAGE DESCRIPTIONS
+================================================================================
+
+--------------------------------------------------------------------------------
+1. SPLASH SCREEN
+--------------------------------------------------------------------------------
+Purpose:
+  - App entry point. Displays the SPIM logo/branding for 2 seconds, then
+    automatically navigates to the Welcome Screen.
+
+Files Involved:
+  - SplashActivity.kt                     (Activity)
+  - res/layout/activity_splash.xml        (Layout)
+
+Key Functions:
+  - onCreate(): Sets the layout, uses a Handler to delay 2s, then launches
+    WelcomeActivity and finishes itself.
+
+
+--------------------------------------------------------------------------------
+2. WELCOME SCREEN
+--------------------------------------------------------------------------------
+Purpose:
+  - Landing page after splash. Provides options to Login, Sign Up, Continue as
+    Guest, or toggle between English and Tagalog languages.
+  - If the user is already logged in (session saved), it auto-redirects to
+    MainNavActivity.
+  - Also checks for app updates via GitHub Releases on launch.
+
+Files Involved:
+  - WelcomeActivity.kt                    (Activity)
+  - res/layout/activity_welcome.xml       (Layout)
+  - utils/SessionManager.kt               (Session check)
+  - utils/LanguageManager.kt              (Language toggle)
+  - utils/ThemeManager.kt                 (Theme initialization)
+  - utils/UpdateManager.kt                (Update check)
+
+Key Functions:
+  - onCreate(): Checks session, initializes language/theme, checks for updates.
+  - setupClickListeners(): Wires up Login, Sign Up, Continue as Guest, Language
+    toggle buttons.
+  - toggleLanguage(): Switches between English ("en") and Tagalog ("tl"),
+    restarts WelcomeActivity to apply the change.
+  - updateLanguageButtonText(): Updates the language button label.
+
+
+--------------------------------------------------------------------------------
+3. LOGIN SCREEN
+--------------------------------------------------------------------------------
+Purpose:
+  - Allows registered farmers to log in with username and password.
+  - Sends credentials to the backend API (POST /api/login).
+  - On success, saves the session (user ID, username) and navigates to
+    MainNavActivity.
+
+Files Involved:
+  - LoginActivity.kt                      (Activity)
+  - res/layout/activity_login.xml         (Layout)
+  - api/ApiService.kt                     (API endpoint definition)
+  - api/ApiModels.kt                      (LoginRequest, LoginResponse)
+  - api/RetrofitClient.kt                 (HTTP client)
+  - utils/SessionManager.kt               (Save session)
+
+Key Functions:
+  - performLogin(): Sends login request via Retrofit, saves session on success.
+  - setupSignUpText(): Creates a clickable "Sign Up" link that navigates to
+    SignUpActivity.
+  - validateInputs(): Validates username and password are not empty.
+  - setupAutoScroll(): Scrolls the form when input fields are focused (so
+    keyboard doesn't cover them).
+
+
+--------------------------------------------------------------------------------
+4. SIGN UP SCREEN
+--------------------------------------------------------------------------------
+Purpose:
+  - Allows new farmers to register an account.
+  - Collects: full name, barangay (dropdown of Naic barangays), username,
+    password, confirm password.
+  - Municipality is hardcoded to "Naic".
+  - Sends registration data to the backend API (POST /api/register).
+
+Files Involved:
+  - SignUpActivity.kt                     (Activity)
+  - res/layout/activity_sign_up.xml       (Layout)
+  - api/ApiService.kt                     (API endpoint)
+  - api/ApiModels.kt                      (RegisterRequest, RegisterResponse)
+  - api/RetrofitClient.kt                 (HTTP client)
+
+Key Functions:
+  - setupBarangayDropdown(): Configures an AutoCompleteTextView with all 30
+    barangays of Naic, Cavite.
+  - performRegistration(): Sends register request; on success navigates to
+    LoginActivity.
+  - validateInputs(): Validates all fields (name, barangay, username, password
+    >= 6 chars, confirm match).
+  - setupLoginText(): Creates a clickable "Login" link.
+
+
+--------------------------------------------------------------------------------
+5. HOME SCREEN (Main Dashboard)
+--------------------------------------------------------------------------------
+Purpose:
+  - The primary screen after login. Acts as the main dashboard.
+  - Provides two core features: "Identify Pest" and "Count Insects".
+  - Displays an insect library grid (Aphids, Leaf Beetle, Pygmy Grasshopper,
+    Slant-faced Grasshopper, and a Recommendations card).
+  - Shows a welcome message with the farmer's username (or "Guest").
+  - Has a notification bell with unread badge.
+  - Has a "How to Use" tutorial button.
+
+Files Involved:
+  - fragments/HomeFragment.kt             (Fragment)
+  - res/layout/fragment_home.xml          (Layout)
+  - adapters/InsectLibraryAdapter.kt      (Grid adapter)
+  - ml/PestClassification (TFLite model)  (ML model wrapper)
+  - res/layout/dialog_input_source.xml    (Camera/Gallery dialog)
+  - res/layout/item_insect_card.xml       (Grid item layout)
+  - res/layout/item_notification.xml      (Notification item layout)
+  - api/RetrofitClient.kt                 (Fetch notifications)
+  - utils/SessionManager.kt               (User info)
+
+Key Functions:
+  - setupClickListeners(): Wires Identify card, Count card, Tutorial button,
+    Notification bell.
+  - setupInsectLibrary(): Populates a 2-column grid with 4 pest types + a
+    "Recommendations" card.
+  - showInputSourceDialog(): Shows Camera/Gallery picker dialog.
+  - handleSelectedImage(): Routes image to IDENTIFY (ML classification) or
+    COUNT (launches CountResultsActivity).
+  - outputGenerator(): Runs TFLite PestClassification model on the image.
+    - Resizes to 224x224, normalizes pixels, creates TensorBuffer.
+    - Gets the class with highest confidence.
+    - Navigates to ConfirmationFragment with pest name + confidence.
+  - loadNotifications(): Fetches notifications from /api/notifications and
+    shows unread badge count.
+  - showNotificationsDialog(): Displays all notifications in a scrollable
+    dialog, marks all as read.
+  - clearNotifications(): Clears all notification history from the server.
+  - showLoginRequiredDialog(): Shown when guest tries to access login-only
+    features (e.g., Recommendations).
+
+
+--------------------------------------------------------------------------------
+6. HISTORY SCREEN
+--------------------------------------------------------------------------------
+Purpose:
+  - Displays all past pest identifications and insect counts stored locally in
+    SQLite.
+  - Allows filtering by type: All, Identified, or Counted.
+  - Provides a "Sync" button to upload unsynced records to the backend.
+  - Provides a "Clear History" floating action button.
+
+Files Involved:
+  - fragments/HistoryFragment.kt          (Fragment)
+  - res/layout/fragment_history.xml       (Layout)
+  - res/layout/item_history.xml           (Identification item layout)
+  - res/layout/item_history_count.xml     (Count item layout)
+  - res/layout/dialog_count_details.xml   (Count detail dialog)
+  - res/layout/item_breakdown_row.xml     (Breakdown row in dialog)
+  - adapters/HistoryAdapter.kt            (RecyclerView adapter)
+  - database/PestDatabaseHelper.kt        (Local DB operations)
+  - models/HistoryItem.kt                 (Data models)
+  - api/RetrofitClient.kt                 (Sync API)
+  - utils/SessionManager.kt               (User session for sync)
+
+Key Functions:
+  - setupRecyclerView(): Configures the RecyclerView with HistoryAdapter.
+  - setupFilters(): Listens to toggle group for All/Identified/Counted filters.
+  - filterList(): Filters allItems by IdentificationItem or CountItem type.
+  - loadHistory(): Loads all history from SQLite via PestDatabaseHelper.
+  - performSync(): Uploads unsynced records to the backend:
+    - Identifications: POST /api/sync/identify (multipart: user_id, insect_name,
+      confidence, image).
+    - Counts: POST /api/sync/count (multipart: user_id, total_count, breakdown,
+      confidence, image).
+    - Marks records as synced locally after successful upload.
+  - showCountDetailDialog(): Shows a detailed breakdown dialog for count records.
+  - showClearHistoryDialog(): Confirmation dialog before clearing all history.
+  - clearHistory(): Deletes all records from both SQLite tables.
+
+
+--------------------------------------------------------------------------------
+7. STATISTICS SCREEN
+--------------------------------------------------------------------------------
+Purpose:
+  - Visualizes pest detection data with charts.
+  - Shows summary cards: Total Pests, Total Beneficials, Most Common Pest.
+  - Horizontal bar chart: Top 5 detected insects (green = beneficial, red = pest).
+  - Line chart: Pest detection trend over time (Day/Week/Month tabs).
+  - Uses MPAndroidChart library for charting.
+
+Files Involved:
+  - fragments/StatisticsFragment.kt       (Fragment)
+  - res/layout/fragment_statistics.xml    (Layout)
+  - database/PestDatabaseHelper.kt        (Data source)
+  - models/HistoryItem.kt                 (Data models)
+
+Key Functions:
+  - loadData(): Loads all history items, calculates total pests vs beneficials,
+    finds most common pest, populates charts.
+  - isBeneficial(): Checks if an insect name matches "pygmygrasshopper" (the
+    only beneficial insect in the system).
+  - setupHorizontalBarChart(): Creates a horizontal bar chart with top 5 insects.
+  - updateTrendChart(): Creates a line chart filtered by Day (7 days), Week
+    (4 weeks), or Month (6 months).
+  - calculatePestSum(): Counts pest detections within a given time range.
+  - setupLineChart(): Configures the trend line chart with MPAndroidChart.
+
+
+--------------------------------------------------------------------------------
+8. SETTINGS SCREEN
+--------------------------------------------------------------------------------
+Purpose:
+  - App configuration and account management.
+  - Shows: App version, database status, total records count.
+  - Language: Switch between English and Tagalog.
+  - Theme: Switch between Light, Dark, and System.
+  - Check for Updates: Manually triggers GitHub release check.
+  - Export Data: Exports all history records to a CSV file in the Downloads
+    folder.
+  - Clear History: Deletes all local records.
+  - Logout: Clears session and returns to WelcomeActivity.
+
+Files Involved:
+  - fragments/SettingsFragment.kt         (Fragment)
+  - res/layout/fragment_settings.xml      (Layout)
+  - utils/LanguageManager.kt              (Language switching)
+  - utils/ThemeManager.kt                 (Theme switching)
+  - utils/UpdateManager.kt                (App update check)
+  - utils/SessionManager.kt               (Logout)
+  - database/PestDatabaseHelper.kt        (History operations)
+  - models/HistoryItem.kt                 (Data models)
+
+Key Functions:
+  - setupUI(): Displays app version, database status, current language/theme.
+  - showLanguageDialog(): Language picker (English/Tagalog).
+  - showThemeDialog(): Theme picker (Light/Dark/System).
+  - changeLanguage() / changeTheme(): Applies the setting and restarts activity.
+  - exportDataToCSV(): Generates a CSV report with columns:
+    Date, Farmer, Insect, Type (Pest/Beneficial), Count, Confidence.
+    Saves to the Downloads folder and opens the file.
+  - showClearAllHistoryDialog() / showLogoutDialog(): Confirmation dialogs.
+  - logout(): Clears session, navigates to WelcomeActivity.
+  - loadAppInfo(): Shows total records count from the database.
+
+
+--------------------------------------------------------------------------------
+9. CONFIRMATION SCREEN
+--------------------------------------------------------------------------------
+Purpose:
+  - Shown after the ML model identifies a pest from a photo.
+  - Displays side-by-side: the user's image and a reference image of the
+    detected pest.
+  - Shows the detected pest name and confidence.
+  - Handles beneficial insect (Pygmy Grasshopper) with green styling.
+  - User can confirm ("Yes" -> saves to history and navigates to pest detail
+    page) or deny ("No" -> goes back to try again).
+
+Files Involved:
+  - fragments/ConfirmationFragment.kt     (Fragment)
+  - res/layout/confirmation.xml           (Layout)
+  - database/PestDatabaseHelper.kt        (Save to history)
+  - models/PestRecord.kt                  (Data model)
+
+Key Functions:
+  - onViewCreated(): Loads image, pest name, confidence from arguments. Sets up
+    reference image based on pest type. Applies green/beneficial styling for
+    pygmygrasshopper.
+  - btnYes click: Compresses the user image to JPEG bytes, creates a PestRecord,
+    saves it to SQLite via PestDatabaseHelper, then navigates to the pest's
+    detail page.
+  - btnNo click: Pops the fragment back stack.
+  - onDestroyView(): Cleans up the temp image file from cache.
+
+
+--------------------------------------------------------------------------------
+10. COUNT RESULTS SCREEN
+--------------------------------------------------------------------------------
+Purpose:
+  - Displays the results of insect counting using the TFLite object detection
+    model (PestDetection.tflite).
+  - Shows the original photo with bounding boxes drawn around detected insects.
+  - Red boxes for pests, green boxes for beneficial insects.
+  - Shows total count and per-species breakdown with confidence percentages.
+  - Automatically saves the count result to the local SQLite database.
+
+Files Involved:
+  - CountResultsActivity.kt               (Activity)
+  - res/layout/activity_count_results.xml  (Layout)
+  - database/PestDatabaseHelper.kt         (Save count record)
+  - models/HistoryItem.kt                  (CountItem model)
+  - assets/PestDetection.tflite            (Detection model)
+  - assets/labels.txt                      (Class labels)
+
+Key Functions:
+  - onCreate(): Loads the image path from intent, initializes the model, and
+    processes the image.
+  - initModel(): Loads PestDetection.tflite into a TensorFlow Lite Interpreter.
+  - loadLabels(): Reads class labels from assets/labels.txt. Fallback:
+    leafbeetle, leafhopper, pygmygrasshopper, slantfacedgrasshopper.
+  - createLetterboxBitmap(): Resizes input to 640x640 with letterbox padding
+    (black bars) to preserve aspect ratio.
+  - processImage(): Converts image to ByteBuffer, runs inference, parses raw
+    output tensor.
+  - parseDetections(): Extracts bounding boxes from the model output tensor
+    (shape 1x8x8400 or transposed). Applies confidence threshold (0.12).
+    Maps coordinates back from letterbox space to original image space.
+  - applyNMS(): Non-Maximum Suppression with IoU threshold 0.45 to remove
+    duplicate detections.
+  - displayResults(): Draws bounding boxes on the bitmap. Red for pests, green
+    for pygmy grasshopper (beneficial). Shows total count and per-species
+    breakdown.
+  - saveCountToHistory(): Saves the annotated image (as JPEG blob), total count,
+    and detailed breakdown JSON to the count_records SQLite table.
+
+
+--------------------------------------------------------------------------------
+11. RECOMMENDATION SCREEN
+--------------------------------------------------------------------------------
+Purpose:
+  - Allows logged-in farmers to submit insect recommendations/reports for pests
+    not in the system.
+  - User provides: an image (camera or gallery), optional insect name, and a
+    required description.
+  - Submits the report to the backend as a multipart POST.
+
+Files Involved:
+  - RecommendationActivity.kt             (Activity)
+  - res/layout/activity_recommendation.xml (Layout)
+  - res/layout/dialog_input_source.xml     (Camera/Gallery picker)
+  - api/ApiService.kt                      (API endpoint)
+  - api/RetrofitClient.kt                  (HTTP client)
+  - utils/SessionManager.kt                (User ID)
+
+Key Functions:
+  - showImageSourceDialog(): Camera/Gallery picker dialog.
+  - handleImageSelection(): Processes image from gallery URI into byte array.
+  - handleBitmap(): Processes image from camera into byte array.
+  - validateAndSubmit(): Validates image + description are provided.
+  - submitReport(): Sends multipart POST to /api/recommendation with
+    user_id, insect_name (optional), description, and image.
+
+
+--------------------------------------------------------------------------------
+12. PEST DETAIL PAGES
+--------------------------------------------------------------------------------
+Purpose:
+  - Educational pages for each pest species recognized by the system.
+  - Each page provides information about the pest (images, descriptions,
+    management tips, etc.).
+
+Files Involved:
+  - fragments/pestpages/AphidsDetailsFragment.kt       -> aphids_page.xml
+  - fragments/pestpages/AphidsPageFragment.kt           -> (alternative layout)
+  - fragments/pestpages/BlackBugPageFragment.kt          -> blackbug_page.xml
+  - fragments/pestpages/GreenLeafHopperPageFragment.kt   -> greenleafhopper_page.xml
+  - fragments/pestpages/LeafBeetleDetailsFragment.kt     -> leaf_beetle_page.xml
+  - fragments/pestpages/PygmyGrasshopperDetailsFragment.kt -> pygmy_grasshopper_page.xml
+  - fragments/pestpages/SlantFacedGrasshopperDetailsFragment.kt -> slant_faced_grasshopper_page.xml
+  - fragments/pestpages/YellowRiceBorerPageFragment.kt   -> yellowriceborer_page.xml
+
+Navigation Mapping (in MainNavActivity.navigateToPestPage):
+  - "leafbeetle"              -> LeafBeetleDetailsFragment
+  - "leafhopper" or "aphids"  -> AphidsDetailsFragment
+  - "pygmygrasshopper"        -> PygmyGrasshopperDetailsFragment
+  - "slantfacedgrasshopper"   -> SlantFacedGrasshopperDetailsFragment
+
+
+================================================================================
+                         MAIN NAVIGATION ACTIVITY
+================================================================================
+
+Purpose:
+  - The central host activity for the app's main content.
+  - Contains a BottomNavigationView with 4 tabs: Home, History, Statistics,
+    Settings.
+  - Manages fragment transactions for all inner screens.
+  - Handles notification system (polling + FCM).
+  - Manages the interactive tutorial overlay system.
+
+Files Involved:
+  - MainNavActivity.kt                    (Activity)
+  - res/layout/activity_main_nav.xml      (Layout)
+  - res/menu/ (bottom navigation menu)
+
+Key Functions:
+  - setupBottomNavigation(): Wires bottom nav to swap fragments
+    (Home/History/Statistics/Settings).
+  - navigateToConfirmation(): Replaces fragment with ConfirmationFragment,
+    passing imagePath, pestName, confidence.
+  - navigateToPestPage(): Routes to the correct pest detail fragment based on
+    pest name.
+  - startTutorial() / updateTutorialStep() / endTutorial(): Interactive tutorial
+    overlay system with 9 steps highlighting different UI elements.
+  - createNotificationChannel(): Creates the "SPIM_ALERTS" notification channel.
+  - startNotificationPolling(): Polls /api/notifications every 30 seconds. Shows
+    system notifications for new unread alerts.
+  - showSystemNotification(): Builds and displays an Android status bar
+    notification.
+  - checkAndRequestNotificationPermission(): Handles Android 13+ POST_NOTIFICATIONS
+    permission.
+  - registerFcmToken(): Gets the FCM token from Firebase and sends it to the
+    backend via POST /api/register_device_token.
+
+
+================================================================================
+                         LEGACY MAIN ACTIVITY
+================================================================================
+
+Purpose:
+  - A backward-compatibility stub. Immediately launches MainNavActivity and
+    finishes itself.
+
+Files: MainActivity.kt (15 lines only)
+
+
+================================================================================
+                              API LAYER
+================================================================================
+
+All backend communication goes through Retrofit2 to:
+  https://Eyow189.pythonanywhere.com/
+
+Files Involved:
+  - api/ApiService.kt          (Interface with all API endpoint definitions)
+  - api/ApiModels.kt           (Request/Response data classes)
+  - api/RetrofitClient.kt      (Singleton Retrofit instance with cookie jar)
+  - api/GitHubUpdateService.kt (GitHub Releases API interface)
+  - api/GitHubUpdateModels.kt  (GitHubRelease, GitHubAsset data classes)
+
+API Endpoints:
+  POST /api/register           - Register a new farmer
+  POST /api/login              - Login with username/password
+  POST /api/sync/identify      - Upload a pest identification record (multipart)
+  POST /api/sync/count         - Upload a count record (multipart)
+  POST /api/recommendation     - Submit a pest recommendation report (multipart)
+  GET  /api/stats/dashboard    - Get dashboard statistics
+  GET  /api/notifications?user_id=X   - Get notifications for a user
+  POST /api/notifications/read/all?user_id=X - Mark all notifications as read
+  POST /api/register_device_token     - Register FCM device token
+
+Data Models:
+  - RegisterRequest (username, full_name, password, municipality, street_barangay)
+  - LoginRequest (username, password)
+  - LoginResponse (message, user_id, role)
+  - RegisterResponse (message)
+  - SyncResponse (message)
+  - DashboardStats (pests, beneficials)
+  - AppNotification (id, message, level, timestamp, is_read, from_user)
+  - MarkReadResponse (message, count)
+  - RegisterDeviceTokenRequest (user_id, fcm_token)
+  - RegisterDeviceTokenResponse (message)
+
+
+================================================================================
+                         LOCAL DATABASE (SQLite)
+================================================================================
+
+File: database/PestDatabaseHelper.kt
+Database Name: pest_database.db (Version 4)
+
+Tables:
+  1. pest_records - Stores pest identification results
+     Columns: id, pest_name, confidence, image_path, image_blob, timestamp,
+              notes, is_synced
+
+  2. count_records - Stores insect count results
+     Columns: id, total_count, breakdown (JSON), image_path, image_blob,
+              timestamp, notes, is_synced
+
+Key Functions:
+  - insertPestRecord()      - Save an identification result
+  - insertCountRecord()     - Save a count result
+  - markPestRecordSynced()  - Mark identification as synced with backend
+  - markCountRecordSynced() - Mark count as synced with backend
+  - getUnsyncedPestRecords()  - Get records not yet uploaded
+  - getUnsyncedCountRecords() - Get count records not yet uploaded
+  - getAllHistoryItems()    - Get all records (both types) sorted by timestamp
+  - getPestImage() / getCountImage() - Get image blobs by record ID
+  - deleteAllPestRecords()  - Clear all history from both tables
+  - getTotalRecordsCount()  - Total records across both tables
+
+
+================================================================================
+                              DATA MODELS
+================================================================================
+
+File: models/PestRecord.kt
+  - Represents a single pest identification record.
+  - Fields: id, pestName, confidence, imagePath, imageBlob, timestamp, notes,
+    isSynced.
+  - Helper methods: getFormattedDateTime(), getConfidencePercentage(),
+    getConfidenceLevel(), hasImage().
+
+File: models/HistoryItem.kt
+  - Sealed class representing any history record.
+  - Two subtypes:
+    a) IdentificationItem - Single pest identification with name + confidence.
+    b) CountItem - Insect count with total + breakdown JSON.
+  - CountItem has:
+    - severityLevel (LOW < 5, MEDIUM 5-20, HIGH > 20)
+    - getBreakdownMap() - Parses breakdown JSON to Map<String, Int>
+      (handles 3 formats: new JSON, intermediate JSON, legacy CSV)
+    - getDetailedBreakdown() - Parses breakdown to Map<String, Map<String, Float>>
+      (includes confidence per species)
+
+
+================================================================================
+                              ADAPTERS
+================================================================================
+
+File: adapters/HistoryAdapter.kt
+  - RecyclerView adapter for the History screen.
+  - Two view types: TYPE_IDENTIFICATION (item_history.xml) and
+    TYPE_COUNT (item_history_count.xml).
+  - Asynchronously loads images from SQLite blobs.
+  - Shows sync status icon for unsynced records.
+  - Count items show severity badges (LOW/MED/HIGH with green/orange/red color).
+
+File: adapters/InsectLibraryAdapter.kt
+  - RecyclerView adapter for the Home screen's insect grid.
+  - Data class: Insect(name, imageResId, isRecommendation).
+  - Recommendation card gets special green styling.
+  - Standard cards use theme-aware colors.
+
+
+================================================================================
+                              UTILITIES
+================================================================================
+
+File: utils/SessionManager.kt
+  - SharedPreferences-based session management (user_session prefs).
+  - Stores: is_logged_in, username, user_id, last_notification_id.
+  - FCM token management: savePendingFcmToken(), getPendingFcmToken(),
+    clearPendingFcmToken().
+
+File: utils/LanguageManager.kt
+  - Object that wraps Context with the selected locale (English or Tagalog).
+  - Called in attachBaseContext() of Activities that need localization.
+  - Persists language choice in app_preferences SharedPreferences.
+
+File: utils/ThemeManager.kt
+  - Object that manages Light/Dark/System theme modes.
+  - Uses AppCompatDelegate to apply the theme.
+  - Persists theme choice in app_preferences SharedPreferences.
+
+File: utils/UpdateManager.kt
+  - Checks for app updates via the GitHub Releases API.
+  - Endpoint: GET repos/Robinih/SPIMv2/releases
+  - Compares latest release tag with BuildConfig.VERSION_NAME.
+  - If newer version found, shows a dialog with download option.
+  - Downloads APK via Android DownloadManager to the Downloads folder.
+
+File: utils/MyFirebaseMessagingService.kt
+  - Firebase Cloud Messaging service for push notifications.
+  - onMessageReceived(): Extracts title, body, level from FCM message and
+    shows a status bar notification.
+  - onNewToken(): Sends updated FCM token to the backend. If user not logged
+    in, saves the token for later registration.
+
+File: utils/DownloadReceiver.kt
+  - BroadcastReceiver for handling completed APK downloads (for app updates).
+
+
+================================================================================
+                        ML / MACHINE LEARNING MODELS
+================================================================================
+
+1. PestClassification.tflite (in app/src/main/ml/)
+   - Image classification model.
+   - Input: 224x224x3 image (normalized 0-1).
+   - Output: Array of confidence scores per class.
+   - Used by: HomeFragment.outputGenerator() for pest identification.
+   - Classes (from labels.txt): leafbeetle, leafhopper, pygmygrasshopper,
+     slantfacedgrasshopper.
+
+2. PestDetection.tflite (in app/src/main/assets/)
+   - Object detection model (YOLO-style).
+   - Input: 640x640x3 image (letterbox padded, normalized 0-1).
+   - Output: Tensor shape [1, 8, 8400] (bounding boxes + class scores).
+   - Used by: CountResultsActivity for insect counting.
+   - Post-processing: Confidence threshold 0.12, NMS with IoU 0.45.
+
+Labels File: assets/labels.txt
+   - Text file listing class names, one per line.
+
+
+================================================================================
+                        RESOURCE / LAYOUT FILES
+================================================================================
+
+Activity Layouts:
+  - activity_splash.xml           (Splash screen)
+  - activity_welcome.xml          (Welcome/landing page)
+  - activity_login.xml            (Login form)
+  - activity_sign_up.xml          (Registration form)
+  - activity_main_nav.xml         (Main container + bottom nav + tutorial overlay)
+  - activity_main.xml             (Legacy, unused)
+  - activity_count_results.xml    (Count results display)
+  - activity_recommendation.xml   (Recommendation form)
+
+Fragment Layouts:
+  - fragment_home.xml             (Home dashboard)
+  - fragment_history.xml          (History list)
+  - fragment_statistics.xml       (Charts and stats)
+  - fragment_settings.xml         (Settings page)
+  - confirmation.xml              (Pest confirmation)
+
+Pest Detail Layouts:
+  - aphids_page.xml
+  - blackbug_page.xml
+  - greenleafhopper_page.xml
+  - leaf_beetle_page.xml
+  - leafhopper_page.xml
+  - pygmy_grasshopper_page.xml
+  - slant_faced_grasshopper_page.xml
+  - yellowriceborer_page.xml
+
+Item / Dialog Layouts:
+  - item_history.xml              (Identification history card)
+  - item_history_count.xml        (Count history card)
+  - item_insect_card.xml          (Insect library grid card)
+  - item_notification.xml         (Notification item)
+  - item_breakdown_row.xml        (Count breakdown row)
+  - dialog_input_source.xml       (Camera/Gallery picker)
+  - dialog_count_details.xml      (Count detail popup)
+
+
+================================================================================
+                         APP PERMISSIONS
+================================================================================
+
+  - INTERNET                    (Backend API, update checks)
+  - ACCESS_NETWORK_STATE        (Network status)
+  - CAMERA                      (Take photos for identification/counting)
+  - READ_MEDIA_IMAGES           (Gallery access, Android 13+)
+  - READ_EXTERNAL_STORAGE       (Gallery access, Android 12 and below)
+  - POST_NOTIFICATIONS          (Show notification alerts, Android 13+)
+  - REQUEST_INSTALL_PACKAGES    (Install APK updates)
+
+
+================================================================================
+                         NAVIGATION FLOW SUMMARY
+================================================================================
+
+  App Launch
+    -> SplashActivity (2s delay)
+    -> WelcomeActivity
+       |-- [Already logged in] --> MainNavActivity (Home)
+       |-- [Login button]      --> LoginActivity --> MainNavActivity (Home)
+       |-- [Sign Up button]    --> SignUpActivity --> LoginActivity
+       |-- [Continue as Guest] --> MainNavActivity (Home, limited features)
+
+  MainNavActivity (Bottom Navigation):
+    Tab 1: HomeFragment
+       |-- [Identify Pest] --> Camera/Gallery --> ML Classification
+       |       --> ConfirmationFragment --> Pest Detail Fragment
+       |-- [Count Insects] --> Camera/Gallery --> CountResultsActivity
+       |-- [Insect Library Grid] --> Pest Detail Fragments
+       |-- [Recommendations Card] --> RecommendationActivity (login required)
+       |-- [Notification Bell] --> Notifications Dialog
+       |-- [Tutorial Button] --> Interactive Tutorial Overlay
+
+    Tab 2: HistoryFragment
+       |-- View past identifications and counts
+       |-- Filter by type (All/Identified/Counted)
+       |-- [Sync Button] --> Upload to backend
+       |-- [Clear] --> Delete all local history
+
+    Tab 3: StatisticsFragment
+       |-- Summary cards (Total Pests, Beneficials, Most Common)
+       |-- Horizontal bar chart (top 5 insects)
+       |-- Line chart (trend by Day/Week/Month)
+
+    Tab 4: SettingsFragment
+       |-- Language (English/Tagalog)
+       |-- Theme (Light/Dark/System)
+       |-- Check for Updates
+       |-- Export to CSV
+       |-- Clear History
+       |-- Logout
+
+
+================================================================================
+                        COMPLETE FILE INDEX
+================================================================================
+
+ACTIVITIES (7 files):
+  com/cvsuagritech/spim/SplashActivity.kt
+  com/cvsuagritech/spim/WelcomeActivity.kt
+  com/cvsuagritech/spim/LoginActivity.kt
+  com/cvsuagritech/spim/SignUpActivity.kt
+  com/cvsuagritech/spim/MainNavActivity.kt
+  com/cvsuagritech/spim/MainActivity.kt (legacy stub)
+  com/cvsuagritech/spim/CountResultsActivity.kt
+  com/cvsuagritech/spim/RecommendationActivity.kt
+
+FRAGMENTS (5 main + 8 pest pages = 13 files):
+  com/cvsuagritech/spim/fragments/HomeFragment.kt
+  com/cvsuagritech/spim/fragments/HistoryFragment.kt
+  com/cvsuagritech/spim/fragments/StatisticsFragment.kt
+  com/cvsuagritech/spim/fragments/SettingsFragment.kt
+  com/cvsuagritech/spim/fragments/ConfirmationFragment.kt
+  com/cvsuagritech/spim/fragments/pestpages/AphidsDetailsFragment.kt
+  com/cvsuagritech/spim/fragments/pestpages/AphidsPageFragment.kt
+  com/cvsuagritech/spim/fragments/pestpages/BlackBugPageFragment.kt
+  com/cvsuagritech/spim/fragments/pestpages/GreenLeafHopperPageFragment.kt
+  com/cvsuagritech/spim/fragments/pestpages/LeafBeetleDetailsFragment.kt
+  com/cvsuagritech/spim/fragments/pestpages/PygmyGrasshopperDetailsFragment.kt
+  com/cvsuagritech/spim/fragments/pestpages/SlantFacedGrasshopperDetailsFragment.kt
+  com/cvsuagritech/spim/fragments/pestpages/YellowRiceBorerPageFragment.kt
+
+API LAYER (5 files):
+  com/cvsuagritech/spim/api/ApiService.kt
+  com/cvsuagritech/spim/api/ApiModels.kt
+  com/cvsuagritech/spim/api/RetrofitClient.kt
+  com/cvsuagritech/spim/api/GitHubUpdateService.kt
+  com/cvsuagritech/spim/api/GitHubUpdateModels.kt
+
+DATABASE (1 file):
+  com/cvsuagritech/spim/database/PestDatabaseHelper.kt
+
+MODELS (2 files):
+  com/cvsuagritech/spim/models/PestRecord.kt
+  com/cvsuagritech/spim/models/HistoryItem.kt
+
+ADAPTERS (2 files):
+  com/cvsuagritech/spim/adapters/HistoryAdapter.kt
+  com/cvsuagritech/spim/adapters/InsectLibraryAdapter.kt
+
+UTILITIES (6 files):
+  com/cvsuagritech/spim/utils/SessionManager.kt
+  com/cvsuagritech/spim/utils/LanguageManager.kt
+  com/cvsuagritech/spim/utils/ThemeManager.kt
+  com/cvsuagritech/spim/utils/UpdateManager.kt
+  com/cvsuagritech/spim/utils/MyFirebaseMessagingService.kt
+  com/cvsuagritech/spim/utils/DownloadReceiver.kt
+
+ML MODELS:
+  app/src/main/ml/PestClassification.tflite
+  app/src/main/assets/PestDetection.tflite
+  app/src/main/assets/labels.txt
+
+TOTAL: 37 Kotlin source files
+
+================================================================================

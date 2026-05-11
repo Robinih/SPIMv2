@@ -24,15 +24,11 @@ import androidx.lifecycle.lifecycleScope
 import com.cvsuagritech.spim.api.AppNotification
 import com.cvsuagritech.spim.api.RetrofitClient
 import com.cvsuagritech.spim.databinding.ActivityMainNavBinding
-import com.cvsuagritech.spim.fragments.ConfirmationFragment
 import com.cvsuagritech.spim.fragments.HistoryFragment
 import com.cvsuagritech.spim.fragments.HomeFragment
 import com.cvsuagritech.spim.fragments.SettingsFragment
 import com.cvsuagritech.spim.fragments.StatisticsFragment
-import com.cvsuagritech.spim.fragments.pestpages.AphidsDetailsFragment
-import com.cvsuagritech.spim.fragments.pestpages.LeafBeetleDetailsFragment
-import com.cvsuagritech.spim.fragments.pestpages.PygmyGrasshopperDetailsFragment
-import com.cvsuagritech.spim.fragments.pestpages.SlantFacedGrasshopperDetailsFragment
+import com.cvsuagritech.spim.fragments.PestLibraryDetailFragment
 import com.cvsuagritech.spim.utils.LanguageManager
 import com.cvsuagritech.spim.utils.SessionManager
 import com.cvsuagritech.spim.utils.ThemeManager
@@ -68,8 +64,20 @@ class MainNavActivity : AppCompatActivity() {
 
     data class TutorialStep(val tabId: Int, val title: String, val desc: String, val viewId: Int)
 
+    private var wrappedContext: Context? = null
+
     override fun attachBaseContext(newBase: Context) {
-        super.attachBaseContext(LanguageManager.wrap(newBase))
+        wrappedContext = LanguageManager.wrap(newBase)
+        super.attachBaseContext(wrappedContext!!)
+    }
+
+    override fun applyOverrideConfiguration(overrideConfiguration: android.content.res.Configuration?) {
+        if (overrideConfiguration != null) {
+            val uiMode = overrideConfiguration.uiMode
+            overrideConfiguration.setTo(baseContext.resources.configuration)
+            overrideConfiguration.uiMode = uiMode
+        }
+        super.applyOverrideConfiguration(overrideConfiguration)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -203,29 +211,17 @@ class MainNavActivity : AppCompatActivity() {
         binding.bottomNavigation.selectedItemId = R.id.nav_home
     }
 
-    fun navigateToConfirmation(imagePath: String, pestName: String, confidence: Float) {
-        val fragment = ConfirmationFragment()
-        val args = Bundle().apply {
-            putString("imagePath", imagePath)
-            putString("pestName", pestName)
-            putFloat("confidence", confidence)
-        }
-        fragment.arguments = args
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.nav_host_fragment, fragment)
-            .addToBackStack(null)
-            .commit()
-    }
+
 
     fun navigateToPestPage(pestName: String) {
-        val fragment = when (pestName.lowercase()) {
-            "leafbeetle" -> LeafBeetleDetailsFragment()
-            "leafhopper", "aphids" -> AphidsDetailsFragment()
-            "pygmygrasshopper" -> PygmyGrasshopperDetailsFragment()
-            "slantfacedgrasshopper" -> SlantFacedGrasshopperDetailsFragment()
-            else -> HomeFragment()
-        }
+        val fragment = PestLibraryDetailFragment.newInstance(pestName)
         supportFragmentManager.beginTransaction()
+            .setCustomAnimations(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left,
+                R.anim.slide_in_left,
+                R.anim.slide_out_right
+            )
             .replace(R.id.nav_host_fragment, fragment)
             .addToBackStack(null)
             .commit()
@@ -256,7 +252,7 @@ class MainNavActivity : AppCompatActivity() {
                 val userId = sessionManager.getUserId()
                 if (userId != -1) {
                     try {
-                        val response = RetrofitClient.instance.getNotifications(userId)
+                        val response = RetrofitClient.instance.getNotifications(userId, true)
                         if (response.isSuccessful) {
                             val notifications = response.body() ?: emptyList()
                             val lastId = sessionManager.getLastNotificationId()

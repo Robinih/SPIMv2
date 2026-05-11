@@ -36,7 +36,51 @@
     <color name="gradient_end">#4CAF50</color>
     <color name="gradient_secondary_start">#8D6E63</color>
     <color name="gradient_secondary_end">#A1887F</color>
-    
+
+    <!-- ===== NEW: UI Upgrade Colors ===== -->
+
+    <!-- Card Tint Backgrounds (Light) -->
+    <color name="card_green_tint">#E8F5E9</color>
+    <color name="card_orange_tint">#FFF3E0</color>
+    <color name="card_blue_tint">#E3F2FD</color>
+    <color name="card_red_tint">#FFEBEE</color>
+
+    <!-- Count Card Gradient -->
+    <color name="card_count_start">#FF8A65</color>
+    <color name="card_count_end">#FF7043</color>
+
+    <!-- Statistics Card Backgrounds -->
+    <color name="stat_card_pests_bg">#FFEBEE</color>
+    <color name="stat_card_beneficial_bg">#E8F5E9</color>
+    <color name="stat_card_common_bg">#E3F2FD</color>
+
+    <!-- Icon Circle Backgrounds -->
+    <color name="icon_bg_green">#C8E6C9</color>
+    <color name="icon_bg_red">#FFCDD2</color>
+    <color name="icon_bg_blue">#BBDEFB</color>
+    <color name="icon_bg_orange">#FFE0B2</color>
+
+    <!-- Bottom Sheet Section Background -->
+    <color name="section_card_bg">#F5F5F5</color>
+
+    <!-- Stat Icon Circle Colors -->
+    <color name="stat_icon_pests">#E53935</color>
+    <color name="stat_icon_beneficial">#43A047</color>
+    <color name="stat_icon_common">#1E88E5</color>
+
+    <!-- Class-specific bounding box colors (classId 0–10) -->
+    <color name="bbox_class_0">#D81B60</color>  <!-- Crambidae → Pink 600 -->
+    <color name="bbox_class_1">#00ACC1</color>  <!-- Noctuidae → Cyan 600 -->
+    <color name="bbox_class_2">#1E88E5</color>  <!-- Delphacidae → Blue 600 -->
+    <color name="bbox_class_3">#43A047</color>  <!-- Cicadellidae → Green 600 -->
+    <color name="bbox_class_4">#00897B</color>  <!-- Hesperiidae → Teal 600 -->
+    <color name="bbox_class_5">#E53935</color>  <!-- Ampullariidae → Red 600 -->
+    <color name="bbox_class_6">#3949AB</color>  <!-- Pentatomidae → Indigo 600 -->
+    <color name="bbox_class_7">#FB8C00</color>  <!-- Pyrgomorphidae → Orange 600 -->
+    <color name="bbox_class_8">#FFB300</color>  <!-- Chrysomelidae → Amber 600 -->
+    <color name="bbox_class_9">#8E24AA</color>  <!-- Acrididae → Purple 600 -->
+    <color name="bbox_class_10">#7CB342</color> <!-- Coreidae → Light Green 600 -->
+
     <!-- Legacy colors for compatibility -->
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#2E7D32</color>

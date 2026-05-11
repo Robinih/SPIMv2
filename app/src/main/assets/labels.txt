@@ -1,4 +1,11 @@
-aphids
-leafbeetle
-pygmygrasshopper
-slantfacedgrasshopper
+Crambidae
+Noctuidae
+Delphacidae
+Cicadellidae
+Hesperiidae
+Ampullariidae
+Pentatomidae
+Pyrgomorphidae
+Chrysomelidae
+Acrididae
+Coreidae
