@@ -257,33 +257,39 @@ class SettingsFragment : Fragment() {
                 val file = File(downloadsDir, fileName)
                 
                 FileOutputStream(file).use { out ->
-                    // Standard CSV header - Removed ImageStatus
-                    out.write("Date,Farmer,Insect,Type,Count,Confidence\n".toByteArray())
+                    // CSV header matching web dashboard export format
+                    out.write("Type,ID,Timestamp,User,Municipality,Pest,Count,Status\n".toByteArray())
                     
                     val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+                    val municipality = "Naic"
                     
                     historyItems.forEach { item ->
                         val dateFormatted = sdf.format(Date(item.timestamp))
-                        // Wrap date in double quotes to prevent Excel from showing hashtags
-                        val date = "\"$dateFormatted\"" 
+                        val timestamp = "\"$dateFormatted\""
                         
                         when (item) {
                             is HistoryItem.IdentificationItem -> {
-                                val type = if (isBeneficial(item.insectName.lowercase())) "Beneficial" else "Pest"
-                                val conf = "\"${(item.confidence * 100).toInt()}%\""
-                                out.write("$date,$farmerName,${item.insectName},$type,1,$conf\n".toByteArray())
+                                val status = if (isBeneficial(item.insectName.lowercase())) "Beneficial" else "Pest"
+                                out.write("Identify,${item.id},$timestamp,$farmerName,$municipality,${item.insectName},1,$status\n".toByteArray())
                             }
                             is HistoryItem.CountItem -> {
                                 val breakdown = item.getBreakdownMapDetailed()
                                 if (breakdown.isEmpty()) {
-                                    out.write("$date,$farmerName,Unknown,Pest,${item.totalCount},\"N/A\"\n".toByteArray())
+                                    // Use simple breakdown map as fallback for older records
+                                    val simpleBreakdown = item.getBreakdownMap()
+                                    if (simpleBreakdown.isEmpty()) {
+                                        out.write("Count,${item.id},$timestamp,$farmerName,$municipality,Mixed Pests,${item.totalCount},Pest\n".toByteArray())
+                                    } else {
+                                        simpleBreakdown.forEach { (pest, count) ->
+                                            val status = if (isBeneficial(pest.lowercase())) "Beneficial" else "Pest"
+                                            out.write("Count,${item.id},$timestamp,$farmerName,$municipality,$pest,$count,$status\n".toByteArray())
+                                        }
+                                    }
                                 } else {
-                                    breakdown.forEach { (insect, details) ->
-                                        val type = if (isBeneficial(insect.lowercase())) "Beneficial" else "Pest"
+                                    breakdown.forEach { (pest, details) ->
+                                        val status = if (isBeneficial(pest.lowercase())) "Beneficial" else "Pest"
                                         val count = details["count"]?.toInt() ?: 0
-                                        val confVal = details["confidence"]
-                                        val conf = if (confVal != null) "\"${(confVal * 100).toInt()}%\"" else "\"N/A\""
-                                        out.write("$date,$farmerName,$insect,$type,$count,$conf\n".toByteArray())
+                                        out.write("Count,${item.id},$timestamp,$farmerName,$municipality,$pest,$count,$status\n".toByteArray())
                                     }
                                 }
                             }
